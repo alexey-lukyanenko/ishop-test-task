@@ -64,15 +64,15 @@ create table order_head (
   constraint nn_order_head_created
     check(created is not null),
   constraint nn_order_head_is_basket
-    check(is_bucket is not null),
+    check(is_basket is not null),
   constraint ch_order_head_is_basket
-    check(is_bucket in (0, 1))
+    check(is_basket in (0, 1))
 );
 --
 create table order_detail (
   id                      int identity,
   order_head_id           int,
-  good_item_id            int,
+  goods_item_id           int,
   quantity                number(18,0),
   constraint pk_order_detail
     primary key (id),

@@ -11,9 +11,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.googlecode.flyway</groupId>
+            <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
-            <version>2.3.1</version>
+            <version>4.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -30,25 +30,33 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.192</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>com.googlecode.flyway</groupId>
+                <groupId>org.flywaydb</groupId>
                 <artifactId>flyway-maven-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>4.0.3</version>
                 <configuration>
-                    <url>jdbc:sqlserver://localhost;integratedSecurity=true;databasename=ishop</url>
-                    <baseDir>db/migration</baseDir>
+                    <url>jdbc:h2:./ishop</url>
+                    <user>flyway_user</user>
+                    <password>flyway_user-pwd</password>
+                    <locations>
+                        <location>filesystem:/sql/common</location>
+                    </locations>
                 </configuration>
                 <dependencies>
                     <dependency>
-                        <groupId>local</groupId>
-                        <artifactId>proprietary</artifactId>
-                        <version>0.0.1</version>
-                        <scope>system</scope>
-                        <systemPath>${basedir}/lib/sqljdbc4.jar</systemPath>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>1.4.192</version>
+                        <scope>compile</scope>
                     </dependency>
                 </dependencies>
             </plugin>
