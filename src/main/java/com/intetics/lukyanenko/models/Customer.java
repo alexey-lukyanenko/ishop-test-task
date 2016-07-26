@@ -2,70 +2,70 @@ package com.intetics.lukyanenko.models;
 
 public class Customer
 {
-  private int ID;
-  private String FullName;
-  private String Email;
-  private String Phone;
-  private String ShippingAddress;
-  private String AnonymousSessionID;
+  private int    id;
+  private String fullName;
+  private String email;
+  private String phone;
+  private String shippingAddress;
+  private String anonymousSessionID;
   
-  public int getID()
+  public int getId()
   {
-    return ID;
+    return id;
   }
   
-  public void setID(int ID)
+  public void setId(int id)
   {
-    this.ID = ID;
+    this.id = id;
   }
   
   public String getFullName()
   {
-    return FullName;
+    return fullName;
   }
   
   public void setFullName(String fullName)
   {
-    FullName = fullName;
+    this.fullName = fullName;
   }
   
   public String getEmail()
   {
-    return Email;
+    return email;
   }
   
   public void setEmail(String email)
   {
-    Email = email;
+    this.email = email;
   }
   
   public String getPhone()
   {
-    return Phone;
+    return phone;
   }
   
   public void setPhone(String phone)
   {
-    Phone = phone;
+    this.phone = phone;
   }
   
   public String getShippingAddress()
   {
-    return ShippingAddress;
+    return shippingAddress;
   }
   
   public void setShippingAddress(String shippingAddress)
   {
-    ShippingAddress = shippingAddress;
+    this.shippingAddress = shippingAddress;
   }
   
   public String getAnonymousSessionID()
   {
-    return AnonymousSessionID;
+    return anonymousSessionID;
   }
   
   public void setAnonymousSessionID(String anonymousSessionID)
   {
-    AnonymousSessionID = anonymousSessionID;
+    this.anonymousSessionID = anonymousSessionID;
   }
 }

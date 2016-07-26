@@ -4,54 +4,54 @@ import java.util.List;
 
 public class GoodsItem
 {
-  private int                 ID;
-  private String              Name;
-  private String              Description;
-  private double              Price;
-  private List<GoodsCategory> Categories;
+  private int                 id;
+  private String              name;
+  private String              description;
+  private double              price;
+  private List<GoodsCategory> categories;
   
-  public int getID()
+  public int getId()
   {
-    return ID;
+    return id;
   }
   
-  public void setID(int ID)
+  public void setId(int id)
   {
-    this.ID = ID;
+    this.id = id;
   }
   
   public String getName()
   {
-    return Name;
+    return name;
   }
   
   public void setName(String name)
   {
-    Name = name;
+    this.name = name;
   }
   
   public String getDescription()
   {
-    return Description;
+    return description;
   }
   
   public void setDescription(String description)
   {
-    Description = description;
+    this.description = description;
   }
   
   public double getPrice()
   {
-    return Price;
+    return price;
   }
   
   public void setPrice(double price)
   {
-    Price = price;
+    this.price = price;
   }
   
   public List<GoodsCategory> getCategories()
   {
-    return Categories;
+    return categories;
   }
 }

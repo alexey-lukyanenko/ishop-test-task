@@ -5,52 +5,52 @@ import java.util.List;
 
 public class Order
 {
-  private int               ID;
-  private String            Number;
-  private Date              Created;
-  private boolean           IsBasket;
+  private int               id;
+  private String            number;
+  private Date              created;
+  private boolean           isBasket;
   private Customer          customer;
-  private List<OrderDetail> Details;
-  private double            Total;
+  private List<OrderDetail> details;
+  private double            total;
   
-  public int getID()
+  public int getId()
   {
-    return ID;
+    return id;
   }
   
-  public void setID(int ID)
+  public void setId(int id)
   {
-    this.ID = ID;
+    this.id = id;
   }
   
   public String getNumber()
   {
-    return Number;
+    return number;
   }
   
   public void setNumber(String number)
   {
-    Number = number;
+    this.number = number;
   }
   
   public Date getCreated()
   {
-    return Created;
+    return created;
   }
   
   public void setCreated(Date created)
   {
-    Created = created;
+    this.created = created;
   }
   
-  public boolean isBasket()
+  public boolean getIsBasket()
   {
-    return IsBasket;
+    return isBasket;
   }
   
-  public void setBasket(boolean basket)
+  public void setIsBasket(boolean isBasket)
   {
-    IsBasket = basket;
+    this.isBasket = isBasket;
   }
   
   public Customer getCustomer()
@@ -65,21 +65,21 @@ public class Order
   
   public List<OrderDetail> getDetails()
   {
-    return Details;
+    return details;
   }
   
   public void setDetails(List<OrderDetail> details)
   {
-    Details = details;
+    this.details = details;
   }
   
   public double getTotal()
   {
-    return Total;
+    return total;
   }
   
   public void setTotal(double total)
   {
-    Total = total;
+    this.total = total;
   }
 }

@@ -4,48 +4,48 @@ import java.lang.ref.WeakReference;
 
 public class OrderDetail
 {
-  private int ID;
-  private GoodsItem Item;
-  private WeakReference<Order> Order;
-  private double Quantity;
+  private int                  id;
+  private GoodsItem            item;
+  private WeakReference<Order> order;
+  private double               quantity;
   
-  public int getID()
+  public int getId()
   {
-    return ID;
+    return id;
   }
   
-  public void setID(int ID)
+  public void setId(int id)
   {
-    this.ID = ID;
+    this.id = id;
   }
   
   public GoodsItem getItem()
   {
-    return Item;
+    return item;
   }
   
   public void setItem(GoodsItem item)
   {
-    Item = item;
+    this.item = item;
   }
   
   public Order getOrder()
   {
-    return Order.get();
+    return order.get();
   }
   
   public void setOrder(Order order)
   {
-    Order = new WeakReference<Order>(order);
+    this.order = new WeakReference<Order>(order);
   }
   
   public double getQuantity()
   {
-    return Quantity;
+    return quantity;
   }
   
   public void setQuantity(double quantity)
   {
-    Quantity = quantity;
+    this.quantity = quantity;
   }
 }

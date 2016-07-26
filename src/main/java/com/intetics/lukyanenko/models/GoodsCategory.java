@@ -4,32 +4,32 @@ import java.util.List;
 
 public class GoodsCategory
 {
-  private int             ID;
-  private String          Name;
-  private List<GoodsItem> Goods;
+  private int             id;
+  private String          name;
+  private List<GoodsItem> goods;
   
-  public int getID()
+  public int getId()
   {
-    return ID;
+    return id;
   }
   
-  public void setID(int ID)
+  public void setId(int id)
   {
-    this.ID = ID;
+    this.id = id;
   }
   
   public String getName()
   {
-    return Name;
+    return name;
   }
   
   public void setName(String name)
   {
-    Name = name;
+    this.name = name;
   }
   
   public List<GoodsItem> getGoods()
   {
-    return Goods;
+    return goods;
   }
 }
