@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="spring-beans-2.5.6">
-    <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/2.5.6/spring-beans-2.5.6.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
