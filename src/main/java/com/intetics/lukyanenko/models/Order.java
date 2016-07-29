@@ -4,12 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 public class Order
+        extends Common
 {
   private int               id;
   private String            number;
   private Date              created;
   private boolean           isBasket;
   private Customer          customer;
+  private Integer           customerId;
   private List<OrderDetail> details;
   private double            total;
   
@@ -53,14 +55,16 @@ public class Order
     this.isBasket = isBasket;
   }
   
-  public Customer getCustomer()
+  public Integer getCustomerId()
   {
-    return customer;
+    return customerId;
   }
   
-  public void setCustomer(Customer customer)
+  public void setCustomerId(int customerId)
   {
-    this.customer = customer;
+    this.customerId = customerId;
+    if (customer != null && customer.getId() != customerId)
+      customer = null;
   }
   
   public List<OrderDetail> getDetails()
@@ -82,4 +86,20 @@ public class Order
   {
     this.total = total;
   }
+  
+  public Customer getCustomer()
+  {
+    if (customerId == null)
+      return null;
+    else if (customer == null)
+      customer = daoFactory.getDAO(Customer.class).getByID(customerId);
+    return customer;
+  }
+  
+  public void setCustomer(Customer customer)
+  {
+    this.customer = customer;
+    this.customerId = customer.getId();
+  }
+  
 }

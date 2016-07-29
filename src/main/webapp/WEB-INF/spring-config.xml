@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.0.xsd"
+>
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
+        <property name="driverClassName" value="org.h2.Driver" />
+        <property name="url" value="jdbc:h2:./ishop" />
+        <property name="username" value="sa" />
+        <property name="password" value="" />
+    </bean>
+    <bean id="jdbcTemplate"
+          class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg ref="dataSource" />
+    </bean>
+
+    <bean id="service" class="com.intetics.lukyanenko.service.ShopService">
+
+    </bean>
+
+    <bean id="orderDAOImpl"
+          class="com.intetics.lukyanenko.dao.jdbc.OrderDAOImpl"
+          abstract="true">
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
+    </bean>
+    <bean class="com.intetics.lukyanenko.models.Order"
+          abstract="true">
+        <property name="daoFactory" ref="JDBCDAOFactory"/>
+    </bean>
+
+</beans>

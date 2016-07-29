@@ -2,7 +2,7 @@ package com.intetics.lukyanenko.models;
 
 import java.lang.ref.WeakReference;
 
-public class OrderDetail
+public class OrderDetail extends Common
 {
   private int                  id;
   private GoodsItem            item;

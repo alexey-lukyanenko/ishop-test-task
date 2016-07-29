@@ -1,6 +1,6 @@
 package com.intetics.lukyanenko.models;
 
-public class Customer
+public class Customer extends Common
 {
   private int    id;
   private String fullName;

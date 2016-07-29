@@ -5,21 +5,32 @@
          version="3.0">
 
     <servlet>
-        <servlet-name>Default</servlet-name>
-        <servlet-class>com.intetics.lukyanenko.web.DefaultServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>hell</servlet-name>
-        <servlet-class>com.intetics.lukyanenko.web.AnotherServlet</servlet-class>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>Default</servlet-name>
+        <servlet-name>dispatcher</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>hell</servlet-name>
-        <url-pattern>/hell</url-pattern>
-    </servlet-mapping>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            /WEB-INF/spring-config.xml
+            /WEB-INF/security-config.xml
+        </param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>
+            org.springframework.web.filter.DelegatingFilterProxy
+        </filter-class>
+    </filter>
 </web-app>

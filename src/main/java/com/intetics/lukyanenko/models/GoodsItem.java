@@ -2,7 +2,7 @@ package com.intetics.lukyanenko.models;
 
 import java.util.List;
 
-public class GoodsItem
+public class GoodsItem extends Common
 {
   private int                 id;
   private String              name;
