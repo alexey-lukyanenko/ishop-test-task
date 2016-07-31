@@ -52,6 +52,11 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>4.0.0.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>4.0.0.RELEASE</version>
         </dependency>
@@ -85,10 +90,10 @@
                 <version>4.0.3</version>
                 <configuration>
                     <url>jdbc:h2:./ishop</url>
-                    <user>flyway_user</user>
-                    <password>flyway_user-pwd</password>
+                    <user>ishop</user>
+                    <password>ishop</password>
                     <locations>
-                        <location>filesystem:/sql/common</location>
+                        <location>filesystem:src/main/webapp/sql/common</location>
                     </locations>
                 </configuration>
                 <dependencies>

@@ -8,16 +8,29 @@
           class="org.springframework.jdbc.datasource.SingleConnectionDataSource">
         <property name="driverClassName" value="org.h2.Driver" />
         <property name="url" value="jdbc:h2:./ishop" />
-        <property name="username" value="sa" />
-        <property name="password" value="" />
+        <property name="username" value="ishop" />
+        <property name="password" value="ishop" />
     </bean>
+    <bean id="flyway"
+          class="org.flywaydb.core.Flyway"
+          init-method="migrate">
+        <property name="dataSource" ref="dataSource" />
+        <property name="locations">
+            <list>
+                <value>classpath:./sql/common</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="jdbcTemplate"
           class="org.springframework.jdbc.core.JdbcTemplate">
         <constructor-arg ref="dataSource" />
     </bean>
 
-    <bean id="service" class="com.intetics.lukyanenko.service.ShopService">
-
+    <bean id="service"
+          class="com.intetics.lukyanenko.service.ShopService"
+          depends-on="flyway">
+        <constructor-arg ref="dataFactory"/>
     </bean>
 
     <bean id="orderDAOImpl"
@@ -27,7 +40,10 @@
     </bean>
     <bean class="com.intetics.lukyanenko.models.Order"
           abstract="true">
-        <property name="daoFactory" ref="JDBCDAOFactory"/>
+        <property name="daoFactory" ref="dataFactory"/>
     </bean>
+
+    <bean id="dataFactory"
+          class="com.intetics.lukyanenko.dao.jdbc.JDBCDAOFactory"/>
 
 </beans>
