@@ -11,23 +11,10 @@ import java.util.HashMap;
 @Controller
 public class HomeController
 {
-  protected final ShopService service;
-  
-  @Inject
-  HomeController(ShopService service)
+  @RequestMapping({"/"})
+  public ModelAndView getDefaultPage()
   {
-    this.service = service;
+    return new ModelAndView("DefaultPage");
   }
-  
-  @RequestMapping({"/", "/default"})
-  public ModelAndView index()
-  {
-    return new ModelAndView("home", "home",
-                            new HashMap<String, String>(){{
-                              put("title", "The title of the page");
-                              put("text", "simple text");
-    }});
-  }
-  
 }
 
