@@ -1,3 +1,27 @@
+create table app_user (
+  name                   nvarchar(50),
+  password               nvarchar(100),
+  constraint pk_app_user
+    primary key(name)
+);
+create table app_role (
+  name                   nvarchar(50),
+  constraint pk_app_role
+    primary key(name)
+);
+create table app_user_roles(
+  user_name              nvarchar(50),
+  role_name              nvarchar(50),
+  constraint pk_app_user_role
+    primary key(user_name, role_name),
+  constraint fk_app_user_role_user
+    foreign key (user_name)
+    references app_user(name),
+  constraint fk_app_user_role_role
+    foreign key (role_name)
+    references app_role(name)
+);
+--
 create table customer (
   id                      integer,
   full_name               nvarchar(100),
@@ -93,4 +117,25 @@ create sequence sq_order_head;
 create sequence sq_order_detail;
 create sequence sq_goods_item;
 create sequence sq_goods_category;
+--
+commit;
+--
+insert
+  into app_role
+  values('anonymous');
+insert
+  into app_role
+  values('customer');
+insert
+  into app_role
+  values('admin');
+commit;
+--
+insert
+  into app_user
+  values ('root', 'qwerty');
+insert
+  into app_user_roles
+  values ('root', 'admin');
+commit;
 --
