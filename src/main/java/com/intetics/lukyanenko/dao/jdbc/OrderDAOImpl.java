@@ -68,7 +68,7 @@ public class OrderDAOImpl implements OrderDAO
     Order.setNumber(resultSet.getString("order_number"));
 //                CommonDAO.setTotal(resultSet.getDouble("total"));
 //                CommonDAO.setDetails();
-//                CommonDAO.setCustomer();
+//                CommonDAO.setUser();
     return Order;
   }
   
