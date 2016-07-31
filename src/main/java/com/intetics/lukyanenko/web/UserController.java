@@ -11,12 +11,12 @@ import javax.inject.Inject;
 
 @Controller
 @RequestMapping(value = "/customers")
-public class CustomerController
+public class UserController
 {
   protected final ShopService service;
   
   @Inject
-  public CustomerController(ShopService service)
+  public UserController(ShopService service)
   {
     this.service = service;
   }
@@ -24,7 +24,7 @@ public class CustomerController
   @RequestMapping(value = "/", method = RequestMethod.GET)
   public ModelAndView getList()
   {
-    return new ModelAndView("customerList");
+    return new ModelAndView("UserList", "list", service.getUserList());
   }
   
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
