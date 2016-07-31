@@ -1,8 +1,9 @@
 package com.intetics.lukyanenko.models;
 
-public class Customer extends Common
+public class User extends Common
 {
   private int    id;
+  private String appUserName;
   private String fullName;
   private String email;
   private String phone;
@@ -67,5 +68,13 @@ public class Customer extends Common
   public void setAnonymousSessionID(String anonymousSessionID)
   {
     this.anonymousSessionID = anonymousSessionID;
+  }
+
+  public String getAppUserName() {
+    return appUserName;
+  }
+
+  public void setAppUserName(String appUserName) {
+    this.appUserName = appUserName;
   }
 }
