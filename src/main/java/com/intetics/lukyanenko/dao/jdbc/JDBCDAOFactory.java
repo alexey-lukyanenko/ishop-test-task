@@ -1,36 +1,44 @@
 package com.intetics.lukyanenko.dao.jdbc;
 
-import com.intetics.lukyanenko.dao.CommonDAO;
-import com.intetics.lukyanenko.dao.DAOFactory;
+import com.intetics.lukyanenko.dao.*;
 import com.intetics.lukyanenko.models.*;
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
-public class JDBCDAOFactory implements DAOFactory, ApplicationContextAware
+public class JDBCDAOFactory implements DAOFactory
 {
-  private ApplicationContext context;
+  private final AppUserDAO appUserDAO;
+  private final OrderDAO orderDAO;
+  private final OrderDetailDAO orderDetailDAO;
+  private final GoodsItemDAO goodsItemDAO;
+  private final GoodsCategoryDAO goodsCategoryDAO;
+  
+  public JDBCDAOFactory(
+          AppUserDAO appUserDAO,
+          OrderDAO orderDAO,
+          OrderDetailDAO orderDetailDAO,
+          GoodsItemDAO goodsItemDAO,
+          GoodsCategoryDAO goodsCategoryDAO
+  )
+  {
+    this.appUserDAO = appUserDAO;
+    this.orderDAO = orderDAO;
+    this.orderDetailDAO = orderDetailDAO;
+    this.goodsItemDAO = goodsItemDAO;
+    this.goodsCategoryDAO = goodsCategoryDAO;
+  }
   
   public <T extends Common> CommonDAO<T> getDAO(Class<T> modelClass)
   {
     if (modelClass == Order.class)
-      return (CommonDAO<T>)context.getBean(OrderDAOImpl.class);
+      return (CommonDAO<T>)orderDAO;
     else if (modelClass == OrderDetail.class)
-      return (CommonDAO<T>)context.getBean(OrderDetailDAOImpl.class);
-    else if (modelClass == User.class)
-      return (CommonDAO<T>)context.getBean(UserDAOImpl.class);
+      return (CommonDAO<T>)orderDetailDAO;
+    else if (modelClass == AppUser.class)
+      return (CommonDAO<T>)appUserDAO;
     else if (modelClass == GoodsCategory.class)
-      return (CommonDAO<T>)context.getBean(GoodsCategoryDAOImpl.class);
+      return (CommonDAO<T>)goodsCategoryDAO;
     else if (modelClass == GoodsItem.class)
-      return (CommonDAO<T>)context.getBean(GoodsItemDAOImpl.class);
+      return (CommonDAO<T>)goodsItemDAO;
     else
       throw new IllegalArgumentException(String.format("Model class %s is not supported", modelClass.getSimpleName()));
-  }
-  
-  @Override
-  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException
-  {
-     context = applicationContext;
   }
 }

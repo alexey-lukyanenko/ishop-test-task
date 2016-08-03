@@ -3,20 +3,13 @@ package com.intetics.lukyanenko.dao.jdbc;
 import com.intetics.lukyanenko.dao.OrderDetailDAO;
 import com.intetics.lukyanenko.models.OrderDetail;
 
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class OrderDetailDAOImpl implements OrderDetailDAO
+public class OrderDetailDAOImpl
+        extends CommonDAOImpl<OrderDetail>
+        implements OrderDetailDAO
 {
-  public List<OrderDetail> findAll()
-  {
-    return null;
-  }
-  
-  public OrderDetail getByID(int id)
-  {
-    return null;
-  }
-  
   public void add(OrderDetail model)
   {
     
@@ -35,5 +28,16 @@ public class OrderDetailDAOImpl implements OrderDetailDAO
   public int generateNewID()
   {
     return 0;
+  }
+  
+  protected String getBaseSelectSQL()
+  {
+    return null;
+  }
+  
+  protected OrderDetail mapFields(ResultSet resultSet)
+          throws SQLException
+  {
+    return null;
   }
 }

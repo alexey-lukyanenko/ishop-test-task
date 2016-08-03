@@ -3,11 +3,24 @@ package com.intetics.lukyanenko.dao.jdbc;
 import com.intetics.lukyanenko.dao.GoodsCategoryDAO;
 import com.intetics.lukyanenko.models.GoodsCategory;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-public class GoodsCategoryDAOImpl implements GoodsCategoryDAO
+public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implements GoodsCategoryDAO
 {
+  protected String getBaseSelectSQL()
+  {
+    return null;
+  }
+  
   public List<GoodsCategory> findAll()
+  {
+    return null;
+  }
+  
+  protected GoodsCategory mapFields(ResultSet resultSet)
+          throws SQLException
   {
     return null;
   }
