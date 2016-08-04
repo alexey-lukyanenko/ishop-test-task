@@ -9,7 +9,7 @@ create table app_role (
   constraint pk_app_role
     primary key(name)
 );
-create table app_user_roles(
+create table app_user_role(
   user_name              nvarchar(50),
   role_name              nvarchar(50),
   constraint pk_app_user_role
@@ -135,7 +135,7 @@ insert
   into app_user
   values ('root', 'qwerty');
 insert
-  into app_user_roles
+  into app_user_role
   values ('root', 'admin');
 commit;
 --

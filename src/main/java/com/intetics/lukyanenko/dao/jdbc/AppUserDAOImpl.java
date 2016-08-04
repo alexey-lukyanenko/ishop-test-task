@@ -46,8 +46,10 @@ public class AppUserDAOImpl
   
   public void delete(AppUser model)
   {
-    jdbcTemplate.update("delete from app_user where name = :name",
-                        new HashMap<String, Object>(){{ put("name", model.getName());}});
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("name", model.getName());
+    jdbcTemplate.update("delete from app_user_role where user_name = :name", params);
+    jdbcTemplate.update("delete from app_user where name = :name", params);
   }
   
   public int generateNewID()
@@ -59,7 +61,7 @@ public class AppUserDAOImpl
   {
     return "select au.name, " +
             "      (select count(1) " +
-            "         from app_user_roles aur " +
+            "         from app_user_role aur " +
             "         where aur.user_name = au.name" +
             "           and aur.role_name = 'customer' " +
             "      ) is_customer " +

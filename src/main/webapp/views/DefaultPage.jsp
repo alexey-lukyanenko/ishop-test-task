@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Internet-store</title>
+    <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
 <h2>Welcome to store
@@ -13,5 +14,6 @@
   </security:authorize>
   <security:authorize access="!isAuthenticated()">.</security:authorize>
 </h2>
+<a href="users">List of registered users</a>
 </body>
 </html>

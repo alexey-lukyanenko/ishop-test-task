@@ -16,10 +16,14 @@ public class AppUser extends Common
     isNew = true;
   }
   
+  public AppUser(boolean isNew)
+  {
+    this.isNew = isNew;
+  }
+  
   public AppUser(String name)
   {
-    super();
-    isNew = false;
+    this(false);
     this.name = name;
   }
   
@@ -62,12 +66,7 @@ public class AppUser extends Common
     return isNew;
   }
   
-  public boolean isNew()
-  {
-    return isNew;
-  }
-  
-  public void setNew(boolean isNew)
+  public void setIsNew(boolean isNew)
   {
     this.isNew = isNew;
   }

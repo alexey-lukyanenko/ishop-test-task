@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="UTF-8"%>
 <%@ page import="com.intetics.lukyanenko.models.AppUser" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,12 +35,9 @@ function requestDelete(name)
     if (confirm("Are you sure that you want to delete user \"" + name + "\"?"))
     {
         var xmlhttp = getXmlHttp()
-        xmlhttp.open('DELETE', 'users/' + name, false);
+        xmlhttp.open('DELETE', 'users/' + name + '/', false);
         xmlhttp.send(null);
-        if(xmlhttp.status == 200)
-        {
-          location.reload();
-        }
+        window.location.href="users";
     }
 }
 </script>
@@ -57,7 +55,7 @@ Registered users:
   {
 %>
   <tr>
-    <td><a href="users/<%=appUser.getName()%>"><%=appUser.getName()%></a></td>
+    <td><a href="users/<%=URLEncoder.encode(appUser.getName(), "UTF-8")%>/"><%=appUser.getName()%></a></td>
     <td><%= (appUser.getIsCustomer() ? "&#10004;" : "")%></td>
     <td><a id="delete" href="" onclick="requestDelete(<%= "'" + appUser.getName() + "'"%>); return false;">delete</a></td>
   </tr>
@@ -66,7 +64,7 @@ Registered users:
 %>
 </table>
 <br>
-<a href="users?new"> Register new user</a>
+<a href="users?new">Register new user</a>
 <br>
 </body>
 </html>

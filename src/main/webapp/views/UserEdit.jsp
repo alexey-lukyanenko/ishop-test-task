@@ -9,77 +9,42 @@
     <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
-<script>
-function getXmlHttp()
-{
-  var xmlhttp;
-  try {
-    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-  } catch (e) {
-    try {
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (E) {
-      xmlhttp = false;
-    }
-  }
-  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-    xmlhttp = new XMLHttpRequest();
-  }
-  return xmlhttp;
-}
-
-function requestDelete(name)
-{
-    if (confirm("Are you sure that you want to delete user \"" + name + "\"?"))
-    {
-        var xmlhttp = getXmlHttp()
-        xmlhttp.open('DELETE', 'users/' + name, false);
-        xmlhttp.send(null);
-        if(xmlhttp.status == 200)
-        {
-          location.reload();
-        }
-    }
-}
-</script>
 <%
   AppUser model = (AppUser)request.getAttribute("model");
-  String formMethod;
   String loginName = model.getName();
-  boolean creating = false;
   if (loginName == null)
   {
-    formMethod = "PUT";
     loginName = "";
-    creating = true;
   }
-  else
-    formMethod = "POST";
 %>
-<% if (creating)
-   {
-%><h4>Please provide a new user credentials</h4><%
-   }
-   else
-   {
-%><h4>You can chage password here</h4><%
-   }
+  <form method="POST" <%=model.getIsNew()?"action=\"users?new\"":""%>>
+    <fieldset>
+      <legend>
+<%if (model.getIsNew())
+  {
+%>Please provide a new user credentials<%
+  } else {
+%>You can change password here<%
+  }
 %>
-  <form method="<%=formMethod%>">
-    <table>
-      <div id="appUser">
+</legend>
+      <table>
         <tr>
           <td><label for="name">User name:</label></td>
-          <td><input id="name" class="edit" value="<%=loginName%>" <%=creating ? "" : "disabled=\"true\""%> ></input></td>
+          <td><input name="name" class="edit" value="<%=loginName%>" <%=model.getIsNew() ? "" : "disabled=\"true\""%> ></input></td>
         </tr>
         <tr>
-          <td><label for="password"><%=creating ? "Password" : "New password"%>:</label></td>
-          <td><input id="password" type="password"></input></td>
+          <td><label for="password"><%=model.getIsNew() ? "Password" : "New password"%>:</label></td>
+          <td><input name="password" type="password"></input></td>
         </tr>
-      </div>
     </table>
-    <input type="submit" value="<%=creating ? "Create user" : "Update password"%>"></input>
-    <a href="users"><%=creating ? "Cancel" : "Return to list"%></a>
+    <input type="submit" value="<%=model.getIsNew() ? "Create user" : "Update password"%>"></input>
+    <a href="users"><%=model.getIsNew() ? "Cancel" : "Return to list"%></a>
+    </fieldset>
+<%=(model.getIsNew() && model.getName() != null)
+   ? String.format("<font color=\"red\">Login name \"%s\" is not available. Please change it and try again</font>", loginName)
+   : ""
+%>
   </form>
 </body>
 </html>
