@@ -8,6 +8,8 @@ public class OrderDetail extends Common
   private GoodsItem            item;
   private WeakReference<Order> order;
   private double               quantity;
+  private int                  goodsItemId;
+  private int                  orderId;
   
   public int getId()
   {
@@ -47,5 +49,25 @@ public class OrderDetail extends Common
   public void setQuantity(double quantity)
   {
     this.quantity = quantity;
+  }
+  
+  public int getGoodsItemId()
+  {
+    return goodsItemId;
+  }
+  
+  public void setGoodsItemId(int goodsItemId)
+  {
+    this.goodsItemId = goodsItemId;
+  }
+  
+  public int getOrderId()
+  {
+    return orderId;
+  }
+  
+  public void setOrderId(int orderId)
+  {
+    this.orderId = orderId;
   }
 }
