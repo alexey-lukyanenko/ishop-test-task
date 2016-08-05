@@ -4,11 +4,11 @@ import java.util.List;
 
 public class GoodsCategory extends Common
 {
-  private int             id;
+  private Integer         id;
   private String          name;
   private List<GoodsItem> goods;
   
-  public int getId()
+  public Integer getId()
   {
     return id;
   }

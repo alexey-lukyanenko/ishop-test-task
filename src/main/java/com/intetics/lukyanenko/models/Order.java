@@ -10,7 +10,7 @@ public class Order
   private String            number;
   private Date              created;
   private boolean           isBasket;
-  private User user;
+  private Customer          customer;
   private Integer           customerId;
   private List<OrderDetail> details;
   private double            total;
@@ -63,8 +63,8 @@ public class Order
   public void setCustomerId(int customerId)
   {
     this.customerId = customerId;
-    if (user != null && user.getId() != customerId)
-      user = null;
+    if (customer != null && customer.getId() != customerId)
+      customer = null;
   }
   
   public List<OrderDetail> getDetails()
@@ -87,19 +87,19 @@ public class Order
     this.total = total;
   }
   
-  public User getUser()
+  public Customer getCustomer()
   {
     if (customerId == null)
       return null;
-    else if (user == null)
-      user = daoFactory.getDAO(User.class).getByID(customerId);
-    return user;
+    else if (customer == null)
+      customer = daoFactory.getDAO(Customer.class).getByID(customerId);
+    return customer;
   }
   
-  public void setUser(User user)
+  public void setCustomer(Customer customer)
   {
-    this.user = user;
-    this.customerId = user.getId();
+    this.customer = customer;
+    this.customerId = customer.getId();
   }
   
 }
