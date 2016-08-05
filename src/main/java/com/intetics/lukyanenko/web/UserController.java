@@ -73,7 +73,6 @@ public class UserController
     return putNew(appUser);
   }
   
-  
   @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
   public void delete(@PathVariable("name") String name)
   {
