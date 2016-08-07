@@ -3,9 +3,12 @@ package com.intetics.lukyanenko.dao.jdbc;
 import com.intetics.lukyanenko.dao.GoodsItemDAO;
 import com.intetics.lukyanenko.models.GoodsCategory;
 import com.intetics.lukyanenko.models.GoodsItem;
+import javafx.util.Pair;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -118,5 +121,52 @@ public class GoodsItemDAOImpl extends CommonDAOImpl<GoodsItem> implements GoodsI
     object.setDescription(resultSet.getString("description"));
     object.setPrice(resultSet.getDouble("price"));
     return object;
+  }
+  
+  @Override
+  public List<GoodsItem> selectWhere(ArrayList<Pair<String, Pair<String, Object>>> params)
+  {
+    HashMap<String, Object> sqlParams = new HashMap<>();
+    StringBuilder sql = new StringBuilder(getBaseSelectSQL());
+    sql.append("  where 1 = 1");
+    for (Pair<String, Pair<String, Object>> param : params) {
+      String prm = String.format("param%d", sqlParams.size());
+      if (param.getKey().contentEquals("price")) {
+        sql.append("    and price ");
+        sql.append(param.getValue().getKey().replace("$(param)", ':' + prm));
+        sqlParams.put(prm, param.getValue().getValue());
+      }
+      if (param.getKey().contentEquals("category")) {
+        sql.append(
+        "    and id in (select link.goods_item_id " +
+        "                 from goods_category_link link " +
+        "                      inner join goods_category gc" +
+        "                        on link.goods_category_id = gc.id" +
+        "                 where gc.name ");
+        sql.append(param.getValue().getKey().replace("$(param)", ':' + prm));
+        sql.append(")");
+        sqlParams.put(prm, param.getValue().getValue());
+      }
+      if (param.getKey().contentEquals("name")) {
+        sql.append("    and (name ");
+        sql.append(param.getValue().getKey().replace("$(param)", ':' + prm));
+        sql.append("   or description ");
+        sql.append(param.getValue().getKey().replace("$(param)", ':' + prm));
+        sql.append(")");
+        sqlParams.put(prm, param.getValue().getValue());
+      }
+    }
+    return jdbcTemplate.query(
+      sql.toString(),
+      sqlParams,
+      new RowMapper<GoodsItem>()
+      {
+        public GoodsItem mapRow(ResultSet resultSet, int i)
+        throws SQLException
+        {
+          return mapFields(resultSet);
+        }
+      }
+    );
   }
 }

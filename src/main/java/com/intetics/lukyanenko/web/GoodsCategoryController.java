@@ -27,13 +27,13 @@ public class GoodsCategoryController
   @RequestMapping(value = {"/", ""})
   public ModelAndView listAll()
   {
-    return new ModelAndView("GoodCategories", "model", service.getGoodCategories());
+    return new ModelAndView("GoodsCategoryList", "list", service.getGoodCategories());
   }
   
   @RequestMapping(params = "ofitem")
   public ModelAndView listForGoodItem(@PathVariable(value = "ofitem") Integer goodsItemId)
   {
-    return new ModelAndView("GoodCategories", "model", service.getGoodItemCategories(goodsItemId));
+    return new ModelAndView("GoodsCategoryList", "list_only", service.getGoodItemCategories(goodsItemId));
   }
   
   @RequestMapping(params = {"ofitem", "select"})
@@ -53,9 +53,9 @@ public class GoodsCategoryController
   {
     GoodsCategory model = service.getGoodCategory(id);
     if (model != null)
-      return new ModelAndView("GoodCategoryEdit", "model", model);
+      return new ModelAndView("GoodsCategoryEdit", "model", model);
     else
-      return new ModelAndView("redirect:/categories");
+      return new ModelAndView("redirect:/category");
   }
   
   @RequestMapping(params = "new", method = RequestMethod.GET)
@@ -68,7 +68,7 @@ public class GoodsCategoryController
   public String update(@ModelAttribute GoodsCategory goodCategory)
   {
     service.setGoodsCategory(goodCategory);
-    return "redirect:/categories";
+    return "redirect:/category";
   }
   
   @RequestMapping(method = RequestMethod.PUT)
@@ -77,7 +77,7 @@ public class GoodsCategoryController
     try
     {
       service.setGoodsCategory(goodCategory);
-      return new ModelAndView("redirect:/categories");
+      return new ModelAndView("redirect:/category");
     } catch (DuplicateKeyException Exception)
     {
       return new ModelAndView("GoodsCategoryEdit", "model", goodCategory);

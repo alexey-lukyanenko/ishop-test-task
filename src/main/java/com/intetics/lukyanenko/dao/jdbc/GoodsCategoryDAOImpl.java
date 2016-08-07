@@ -2,10 +2,12 @@ package com.intetics.lukyanenko.dao.jdbc;
 
 import com.intetics.lukyanenko.dao.GoodsCategoryDAO;
 import com.intetics.lukyanenko.models.GoodsCategory;
+import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 
 public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implements GoodsCategoryDAO
 {
@@ -74,5 +76,26 @@ public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implement
     return jdbcTemplate.queryForObject("select next value for sq_goods_category",
                                        (HashMap<String, Object>)null,
                                        Integer.class);
+  }
+  
+  @Override
+  public List<GoodsCategory> getGoodsItemCategories(Integer goodsItemId)
+  {
+    return jdbcTemplate.query(
+      "select gc.* " +
+      "  from goods_category gc" +
+      "       inner join goods_category_link link" +
+      "         on gc.id = link.goods_category_id" +
+      "  where link.goods_iten_id = :item_id",
+      new HashMap<String, Object>(1){{put("item_id", goodsItemId);}},
+      new RowMapper<GoodsCategory>()
+      {
+        public GoodsCategory mapRow(ResultSet resultSet, int i)
+          throws SQLException
+        {
+          return mapFields(resultSet);
+        }
+      }
+    );
   }
 }

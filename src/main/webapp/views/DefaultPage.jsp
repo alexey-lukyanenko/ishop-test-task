@@ -14,6 +14,8 @@
   </security:authorize>
   <security:authorize access="!isAuthenticated()">.</security:authorize>
 </h2>
-<a href="users">List of registered users</a>
+<p><a href="users">List of registered users</a>
+<p><a href="category">Goods categories</a>
+<p><a href="goods">Goods</a>
 </body>
 </html>

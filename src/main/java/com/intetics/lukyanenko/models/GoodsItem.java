@@ -1,16 +1,22 @@
 package com.intetics.lukyanenko.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GoodsItem extends Common
 {
-  private int                 id;
+  private Integer                 id;
   private String              name;
   private String              description;
   private double              price;
   private List<GoodsCategory> categories;
   
-  public int getId()
+  public GoodsItem()
+  {
+    this.categories = null;
+  }
+  
+  public Integer getId()
   {
     return id;
   }
@@ -53,5 +59,9 @@ public class GoodsItem extends Common
   public List<GoodsCategory> getCategories()
   {
     return categories;
+  }
+  
+  public void setCategories(List<GoodsCategory> categories) {
+    this.categories = categories;
   }
 }
