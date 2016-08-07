@@ -2,11 +2,13 @@ package com.intetics.lukyanenko.service;
 
 import com.intetics.lukyanenko.dao.AppUserDAO;
 import com.intetics.lukyanenko.dao.DAOFactory;
+import com.intetics.lukyanenko.dao.GoodsCategoryDAO;
+import com.intetics.lukyanenko.dao.GoodsItemDAO;
 import com.intetics.lukyanenko.models.*;
 import com.intetics.lukyanenko.web.Service;
+import javafx.util.Pair;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ShopService implements Service
 {
@@ -51,7 +53,7 @@ public class ShopService implements Service
   @Override
   public List<GoodsCategory> getGoodItemCategories(Integer goodsItemId)
   {
-    return factory.getDAO(GoodsCategory.class).search("link.goods_item_id", goodsItemId);
+    return ((GoodsCategoryDAO)factory.getDAO(GoodsCategory.class)).getGoodsItemCategories(goodsItemId);
   }
   
   @Override
@@ -63,7 +65,7 @@ public class ShopService implements Service
   @Override
   public void setGoodsCategory(GoodsCategory goodCategory)
   {
-    if (goodCategory.getId() != null)
+    if (goodCategory.getId() == null)
       factory.getDAO(GoodsCategory.class).add(goodCategory);
     else
       factory.getDAO(GoodsCategory.class).update(goodCategory);
@@ -80,25 +82,56 @@ public class ShopService implements Service
   @Override
   public GoodsItem getGoodsItem(Integer id)
   {
-    return null;
+    return factory.getDAO(GoodsItem.class).getByID(id);
+  }
+  
+  @Override
+  public GoodsItem getGoodsItemForEdit(Integer id)
+  {
+    GoodsItem object = getGoodsItem(id);
+    object.setCategories(((GoodsCategoryDAO)factory.getDAO(GoodsCategory.class)).getGoodsItemCategories(id));
+    return object;
+  }
+  
+  @Override
+  public GoodsItem getEmptyGoodsItem()
+  {
+    GoodsItem object = new GoodsItem();
+    object.setCategories(new ArrayList<>(0));
+    return object;
   }
   
   @Override
   public void setGoodsItem(GoodsItem goodsItem)
   {
-    
+    if (goodsItem.getId() != null)
+      factory.getDAO(GoodsItem.class).update(goodsItem);
+    else
+      factory.getDAO(GoodsItem.class).add(goodsItem);
   }
   
   @Override
   public void deleteGoodsItem(Integer id)
   {
-    
+    GoodsItem object = new GoodsItem();
+    object.setId(id);
+    factory.getDAO(GoodsItem.class).delete(object);
   }
   
   @Override
-  public List<GoodsItem> searchGoodItems(Map<String, String> searchParams)
+  public List<GoodsItem> searchGoodItems(Double priceFrom, Double priceTill, String category, String itemName)
   {
-    return null;
+    GoodsItemDAO dao = (GoodsItemDAO) factory.getDAO(GoodsItem.class);
+    ArrayList<Pair<String, Pair<String, Object>>> params = new ArrayList<>();
+    if (priceFrom != null)
+      params.add(new Pair<>("price", new Pair<>(">= $(param)", priceFrom)));
+    if (priceTill != null)
+      params.add(new Pair<>("price", new Pair<>("<= $(param)", priceTill)));
+    if (category != null && !category.isEmpty())
+      params.add(new Pair<>("category", new Pair<>("like '%' || $(param) || '%'", category)));
+    if (itemName != null && !itemName.isEmpty())
+      params.add(new Pair<>("name", new Pair<>("like '%' || $(param) || '%'", itemName)));
+    return dao.selectWhere(params);
   }
   
   @Override

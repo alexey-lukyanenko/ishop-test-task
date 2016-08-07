@@ -19,9 +19,11 @@ public interface Service
   void deleteGoodsCategory(Integer id);
   
   GoodsItem getGoodsItem(Integer id);
+  GoodsItem getGoodsItemForEdit(Integer id);
+  GoodsItem getEmptyGoodsItem();
   void setGoodsItem(GoodsItem goodsItem);
   void deleteGoodsItem(Integer id);
-  List<GoodsItem> searchGoodItems(Map<String, String> searchParams);
+  List<GoodsItem> searchGoodItems(Double priceFrom, Double priceTill, String category, String itemName);
   
   Order getBasket();
   void updateBasket(Map<String, String> params);
