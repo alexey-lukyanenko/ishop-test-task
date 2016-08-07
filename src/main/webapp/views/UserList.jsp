@@ -66,5 +66,7 @@ Registered users:
 <br>
 <a href="users?new">Register new user</a>
 <br>
+<br>
+<a href="">Home page</a>
 </body>
 </html>
