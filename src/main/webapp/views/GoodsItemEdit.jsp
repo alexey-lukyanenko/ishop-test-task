@@ -15,7 +15,7 @@
     <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
-  <form method="POST" <%=creating? "action=\"goods?new\"":""%>>
+  <form method="POST" action="<%=creating? "goods?new": String.format("goods/%d", model.getId())%>">
     <fieldset>
       <legend>Populate item info</legend>
       <table>
@@ -43,14 +43,14 @@
         }
 %>
 <p> <input type="checkbox"
-           name="categories.<%=category.getId()%>"
-           value="categories.<%=category.getId()%>"
+           name="categories/<%=category.getId()%>"
+           value="<%=category.getId()%>"
            <%= checked ? "checked" : "" %>><%=category.getName()%>
 <%  }%>
     </fieldset>
     <input type="submit" value="<%=creating ? "Create a item" : "Update a item"%>">
     <a href="goods"><%=creating ? "Cancel" : "Return to list"%></a>
-<%=(creating && model.getName() != null)
+   <%=(creating && model.getName() != null)
    ? String.format("<font color=\"red\">item name \"%s\" is not available. Please change it and try again</font>", model.getName())
    : ""
 %>
