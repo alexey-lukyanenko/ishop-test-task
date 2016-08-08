@@ -9,12 +9,14 @@ public interface Service
 {
   List<AppUser> getAppUserList();
   AppUser getAppUserInfo(String name);
+  AppUser getAppUserEmptyNew();
   void setAppUser(AppUser appUser);
-  void deleteAppUser(AppUser appUser);
+  void deleteAppUser(String appUserName);
   
   List<GoodsCategory> getGoodCategories();
   List<GoodsCategory> getGoodItemCategories(Integer goodsItemId);
   GoodsCategory getGoodCategory(Integer id);
+  GoodsCategory getGoodCategoryEmpty();
   void setGoodsCategory(GoodsCategory goodCategory);
   void deleteGoodsCategory(Integer id);
   

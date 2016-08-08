@@ -42,7 +42,7 @@ public class UserController
   @RequestMapping(params = "new", method = RequestMethod.GET)
   public ModelAndView getEmptyEditForm()
   {
-    return new ModelAndView("UserEdit", "model", new AppUser(true));
+    return new ModelAndView("UserEdit", "model", service.getAppUserEmptyNew());
   }
   
   @RequestMapping(value = "/{name}", method = RequestMethod.POST)
@@ -76,6 +76,6 @@ public class UserController
   @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
   public void delete(@PathVariable("name") String name)
   {
-    service.deleteAppUser(new AppUser(name));
+    service.deleteAppUser(name);
   }
 }
