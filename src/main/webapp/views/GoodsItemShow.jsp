@@ -13,25 +13,8 @@
     <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
+<script type="text/javascript" src="resources/scripts/xmlhttp.js"></script>
 <script>
-function getXmlHttp()
-{
-  var xmlhttp;
-  try {
-    xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
-  } catch (e) {
-    try {
-      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    } catch (E) {
-      xmlhttp = false;
-    }
-  }
-  if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
-    xmlhttp = new XMLHttpRequest();
-  }
-  return xmlhttp;
-}
-
 function requestAddToBasket(id)
 {
     var xmlhttp = getXmlHttp()
@@ -39,6 +22,7 @@ function requestAddToBasket(id)
     xmlhttp.send(null);
 }
 </script>
+<jsp:include page="../basket/short"/>
 <h3>Good details</h3>
 <table>
   <tr><td><strong>Name</strong></td><tr>
@@ -49,7 +33,7 @@ function requestAddToBasket(id)
   <tr><td><%=model.getPrice()%></td></tr>
 </table>
 <form method="POST" action="goods/<%=model.getId()%>?basket=add">
-    <input type="button" value="Add to basket" onclick="requestDelete(<%=model.getId()%>); return false;">
+    <input type="button" value="Add to basket" onclick="requestAddToBasket(<%=model.getId()%>); return false;">
 </form>
 <a href="item"><%=creating ? "Cancel" : "Return to list"%></a>
 <br>
