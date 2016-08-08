@@ -61,7 +61,7 @@ public class GoodsCategoryController
   @RequestMapping(params = "new", method = RequestMethod.GET)
   public ModelAndView getEmptyEditForm()
   {
-    return new ModelAndView("GoodsCategoryEdit", "model", new GoodsCategory());
+    return new ModelAndView("GoodsCategoryEdit", "model", service.getGoodCategoryEmpty());
   }
   
   @RequestMapping(value = "/{id}", method = RequestMethod.POST)
@@ -89,7 +89,6 @@ public class GoodsCategoryController
   {
     return putNew(goodCategory);
   }
-  
   
   @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   public void delete(@PathVariable("id") Integer id)
