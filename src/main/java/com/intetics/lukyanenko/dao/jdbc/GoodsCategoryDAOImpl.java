@@ -86,7 +86,7 @@ public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implement
       "  from goods_category gc" +
       "       inner join goods_category_link link" +
       "         on gc.id = link.goods_category_id" +
-      "  where link.goods_iten_id = :item_id",
+      "  where link.goods_item_id = :item_id",
       new HashMap<String, Object>(1){{put("item_id", goodsItemId);}},
       new RowMapper<GoodsCategory>()
       {

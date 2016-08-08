@@ -68,6 +68,7 @@ public class GoodsItemDAOImpl extends CommonDAOImpl<GoodsItem> implements GoodsI
                         "  where goods_item_id = :goods_item_id",
                         params
     );
+    params.put("goods_category_id", null);
     for(GoodsCategory category: categories)
     {
       params.replace("goods_category_id", category.getId());
