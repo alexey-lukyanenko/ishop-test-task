@@ -67,7 +67,7 @@ public class GoodsItemController
       return new ModelAndView("redirect:/goods");
   }
   
-  @RequestMapping(value = "/{id}/basket", method = RequestMethod.POST)
+  @RequestMapping(value = "/{id}", params = "basket", method = RequestMethod.POST)
   public void addToBasket(@PathVariable("id") Integer id)
   {
     service.addGoodsItemToBasket(id);
