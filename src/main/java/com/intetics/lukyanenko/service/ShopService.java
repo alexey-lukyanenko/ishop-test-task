@@ -39,9 +39,9 @@ public class ShopService implements Service
       factory.getDAO(AppUser.class).update(appUser);
   }
   
-  public void deleteAppUser(AppUser appUser)
+  public void deleteAppUser(String appUserName)
   {
-    factory.getDAO(AppUser.class).delete(appUser);
+    factory.getDAO(AppUser.class).delete(new AppUser(appUserName));
   }
   
   @Override
@@ -204,6 +204,18 @@ public class ShopService implements Service
   public void deleteCustomer(Integer id)
   {
     
+  }
+  
+  @Override
+  public AppUser getAppUserEmptyNew()
+  {
+    return new AppUser(true);
+  }
+  
+  @Override
+  public GoodsCategory getGoodCategoryEmpty()
+  {
+    return new GoodsCategory();
   }
   
 }
