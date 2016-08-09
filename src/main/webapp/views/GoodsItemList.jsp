@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="UTF-8"%>
 <%@ page import="com.intetics.lukyanenko.models.GoodsItem" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.GrantedAuthority" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,6 +20,7 @@ function requestDelete(name, id)
     {
         var xmlhttp = getXmlHttp()
         xmlhttp.open('DELETE', 'goods/' + id + '/', false);
+        xmlhttp.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xmlhttp.send(null);
         window.location.href="goods";
     }
@@ -26,7 +29,14 @@ function requestDelete(name, id)
 <%@ include file="GoodsSearch.html"%>
 <%
   List<GoodsItem> list = (List<GoodsItem>)request.getAttribute("list");
-  boolean readonly = false; // todo: goods security
+  boolean readonly = true;
+  for (GrantedAuthority auth: SecurityContextHolder.getContext().getAuthentication().getAuthorities())
+    if (auth.getAuthority().equals("admin"))
+    {
+      readonly = false;
+      break;
+    }
+  //
   if (!list.isEmpty())
   {
 %>
@@ -42,13 +52,13 @@ Items:
 %>
   <tr>
     <td><a href="goods/<%=item.getId()%>/"><%=item.getName()%></a></td>
-    <td><%=item.getPrice()%></a></td>
+    <td><%=item.getPrice()%></td>
 <%
       if(!readonly)
       {
 %>
-    <td><p><a id="edit" href="goods/<%=item.getId()%>/edit">edit</a>
-        <p><a id="delete" href="" onclick="requestDelete(<%= "'" + item.getName() + "'"%>, <%=item.getId()%>); return false;">delete</a></td>
+    <td><a id="edit" href="goods/<%=item.getId()%>/edit">edit</a><br>
+        <a id="delete" href="" onclick="requestDelete(<%= "'" + item.getName() + "'"%>, <%=item.getId()%>); return false;">delete</a></td>
 <%    }%>
   </tr>
 <%  }%>

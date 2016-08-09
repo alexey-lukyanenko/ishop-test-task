@@ -19,6 +19,7 @@ function requestDelete(name, id)
     {
         var xmlhttp = getXmlHttp()
         xmlhttp.open('DELETE', 'category/' + id + '/', false);
+        xmlhttp.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
         xmlhttp.send(null);
         window.location.href="category";
     }
