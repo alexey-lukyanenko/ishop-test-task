@@ -9,8 +9,12 @@
                             http://www.springframework.org/schema/security/spring-security-4.0.xsd"
 >
     <http auto-config="true" use-expressions="true">
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/users**" access="hasAuthority('admin')"/>
+        <intercept-url pattern="/customers**" access="hasAuthority('admin')"/>
+        <intercept-url pattern="/category**" access="hasAuthority('admin')"/>
         <intercept-url pattern="/**" access="permitAll"/>
-        <!--intercept-url pattern="/**" access="anonymous"/-->
+        <logout logout-success-url="/" logout-url="/logout" />
     </http>
     <authentication-manager id="authenticationManager">
         <authentication-provider>
@@ -18,7 +22,7 @@
                     id="userService"
                     data-source-ref="dataSource"
                     users-by-username-query="select name, password, true from app_user where name = lower(?)"
-                    authorities-by-username-query="select user_name, role_name from app_user_roles where user_name = lower(?)"
+                    authorities-by-username-query="select user_name, role_name from app_user_role where user_name = lower(?)"
             />
         </authentication-provider>
     </authentication-manager>
