@@ -19,6 +19,7 @@ function requestAddToBasket(id)
 {
     var xmlhttp = getXmlHttp()
     xmlhttp.open('POST', 'goods/' + id + '?basket=add', false);
+    xmlhttp.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
     xmlhttp.send(null);
 }
 </script>

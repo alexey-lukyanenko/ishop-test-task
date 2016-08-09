@@ -14,11 +14,11 @@
   </security:authorize>
   <security:authorize access="!isAuthenticated()">a guest</security:authorize>
 !</h2>
-<security:authorize access="hasAuthority('admin')"><p><a href="users">List of registered users</a></security:authorize>
-<security:authorize access="hasAuthority('admin')"><p><a href="category">Goods categories</a></security:authorize>
-<security:authorize access="hasAuthority('admin')"><p><a href="customer">Customers</a></security:authorize>
-<p><a href="goods">Goods</a>
-<br>
+<security:authorize access="hasAuthority('admin')"><br><a href="users">List of registered users</a></security:authorize>
+<security:authorize access="hasAuthority('admin')"><br><a href="category">Goods categories</a></security:authorize>
+<security:authorize access="hasAuthority('admin')"><br><a href="customer">Customers</a></security:authorize>
+<br><a href="goods">Browse for goods</a>
+<p>
 <security:authorize access="!isAuthenticated()">
 You can <a href="login">sign in</a> to see your orders
 </security:authorize>

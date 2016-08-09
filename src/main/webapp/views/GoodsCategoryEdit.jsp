@@ -23,6 +23,7 @@
         </tr>
     </table>
     <input type="submit" value="<%=creating ? "Create a category" : "Update a category"%>"></input>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <a href="category"><%=creating ? "Cancel" : "Return to list"%></a>
     </fieldset>
 <%=(creating && model.getName() != null)

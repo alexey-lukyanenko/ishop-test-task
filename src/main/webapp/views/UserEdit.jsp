@@ -40,6 +40,7 @@
     </table>
     <input type="submit" value="<%=model.getIsNew() ? "Create user" : "Update password"%>"></input>
     <a href="users"><%=model.getIsNew() ? "Cancel" : "Return to list"%></a>
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </fieldset>
 <%=(model.getIsNew() && model.getName() != null)
    ? String.format("<font color=\"red\">Login name \"%s\" is not available. Please change it and try again</font>", loginName)
