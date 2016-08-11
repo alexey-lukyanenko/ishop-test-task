@@ -120,7 +120,31 @@
                     <update>true</update>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.5</version>
+                <executions>
+                    <execution>
+                        <id>copy-sql</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>.</directory>
+                <includes>
+                    <include>sql/**/*.sql</include>
+                </includes>
+
+            </resource>
+        </resources>
     </build>
 
 </project>
