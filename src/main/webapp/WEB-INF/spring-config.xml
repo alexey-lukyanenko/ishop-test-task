@@ -18,7 +18,7 @@
         <property name="dataSource" ref="dataSource" />
         <property name="locations">
             <list>
-                <value>filesystem:D:\Work\JavaTestProject\ishop\src\main\webapp\sql\common</value>
+                <value>sql</value>
             </list>
         </property>
     </bean>
@@ -58,6 +58,11 @@
         </constructor-arg>
         <constructor-arg>
             <bean class="com.intetics.lukyanenko.dao.jdbc.GoodsItemDAOImpl">
+                <property name="JdbcTemplate" ref="jdbcTemplate"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg>
+            <bean class="com.intetics.lukyanenko.dao.jdbc.CustomerDAOImpl">
                 <property name="JdbcTemplate" ref="jdbcTemplate"/>
             </bean>
         </constructor-arg>
