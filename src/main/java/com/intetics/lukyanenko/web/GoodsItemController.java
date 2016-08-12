@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.inject.Inject;
@@ -70,7 +71,8 @@ public class GoodsItemController
   @RequestMapping(value = "/{id}", params = "basket", method = RequestMethod.POST)
   public void addToBasket(@PathVariable("id") Integer id)
   {
-    service.addGoodsItemToBasket(id);
+    service.addGoodsItemToBasket(id,
+                                 RequestContextHolder.currentRequestAttributes().getSessionId());
   }
   
   @RequestMapping(value = "/{id}/edit", method = RequestMethod.GET)
