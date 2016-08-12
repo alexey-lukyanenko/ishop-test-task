@@ -1,14 +1,16 @@
 package com.intetics.lukyanenko.service;
 
-import com.intetics.lukyanenko.dao.AppUserDAO;
-import com.intetics.lukyanenko.dao.DAOFactory;
-import com.intetics.lukyanenko.dao.GoodsCategoryDAO;
-import com.intetics.lukyanenko.dao.GoodsItemDAO;
+import com.intetics.lukyanenko.dao.*;
 import com.intetics.lukyanenko.models.*;
 import com.intetics.lukyanenko.web.Service;
 import javafx.util.Pair;
 
-import java.util.*;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class ShopService implements Service
 {
@@ -135,39 +137,97 @@ public class ShopService implements Service
   }
   
   @Override
-  public Order getBasket()
+  public Order getBasket(String sessionId)
   {
-    return null;
+    OrderDAO dao = (OrderDAO)factory.getDAO(Order.class);
+    Customer customer = getSessionCustomer(sessionId);
+    Order basket = dao.findBasket(customer.getId());
+    if (basket == null)
+    {
+      basket = new Order();
+      basket.setCreated(new Date());
+      basket.setCustomer(customer);
+      basket.setIsBasket(true);
+      dao.add(basket);
+    }
+    return basket;
+  }
+  
+  private Customer getSessionCustomer(String sessionId)
+  {
+    CustomerDAO dao = (CustomerDAO)factory.getDAO(Customer.class);
+    Customer customer = dao.find(sessionId);
+    if (customer == null)
+    {
+      customer = new Customer();
+      customer.setAnonymousSessionID(sessionId);
+      dao.add(customer);
+    }
+    return customer;
   }
   
   @Override
-  public void updateBasket(Map<String, String> params)
+  public void updateBasket(Order basket, ArrayList<OrderDetail> updates)
   {
-    
+    if (basket.getDetails() == null)
+      fillOrderDetails(basket);
+    //
+    OrderDetailDAO dao = (OrderDetailDAO)factory.getDAO(OrderDetail.class);
+    for(OrderDetail upd : updates)
+      for(OrderDetail row : basket.getDetails())
+        if (row.getId() == upd.getId())
+          if (upd.getQuantity() == 0)
+          {
+            dao.delete(upd);
+            basket.getDetails().remove(row);
+          }
+          else
+          {
+            row.setQuantity(upd.getQuantity());
+            dao.update(row);
+          }
   }
   
   @Override
   public Integer tryConvertBasketToOrder()
   {
     return null;
+    // todo tryConvertBasketToOrder
   }
   
   @Override
-  public void addGoodsItemToBasket(Integer id)
+  public void addGoodsItemToBasket(Integer goodsItemid, String sessionId)
   {
-    
+    Order basket = getBasket(sessionId);
+    OrderDetailDAO dao = (OrderDetailDAO)factory.getDAO(OrderDetail.class);
+    OrderDetail detail = dao.findGoodsItemInOrder(basket, goodsItemid);
+    if (detail == null)
+    {
+      detail = new OrderDetail();
+      detail.setOrder(basket);
+      detail.setGoodsItem(factory.getDAO(GoodsItem.class).getByID(goodsItemid));
+      detail.setQuantity(1);
+      dao.add(detail);
+    }
+    else
+    {
+      detail.setQuantity(detail.getQuantity() + 1);
+      dao.update(detail);
+    }
   }
   
   @Override
   public void deleteOrder(Integer id)
   {
-    
+    Order object = new Order();
+    object.setId(id);
+    factory.getDAO(Order.class).delete(object);
   }
   
   @Override
   public Object getOrder(Integer id)
   {
-    return null;
+    return factory.getDAO(Order.class).getByID(id);
   }
   
   @Override
@@ -204,6 +264,36 @@ public class ShopService implements Service
   public void deleteCustomer(Integer id)
   {
     
+  }
+  
+  @Override
+  public void clearBasket(String sessionId)
+  {
+    factory.getDAO(Order.class).delete(getBasket(sessionId));
+  }
+  
+  @Override
+  public OrderDetail getOrderDetailEmpty()
+  {
+    return new OrderDetail();
+  }
+  
+  @Override
+  public void fillOrderDetails(Order order)
+  {
+    order.setDetails(((OrderDetailDAO)factory.getDAO(OrderDetail.class))
+                       .getListForOrder(order,
+                                        new OrderDetailDAO.SubdetailsFillable() {
+                                          @Override
+                                          public void fill(OrderDetail detail, ResultSet resultSet,
+                                                           String fieldNamePrefix
+                                                          ) throws SQLException
+                                          {
+                                            detail.setGoodsItem(factory.getDAO(GoodsItem.class)
+                                                                       .populateFromResultSet(resultSet, fieldNamePrefix)
+                                                               );
+                                          }
+                                        }));
   }
   
   @Override
