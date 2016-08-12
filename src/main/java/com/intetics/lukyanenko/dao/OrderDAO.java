@@ -4,4 +4,5 @@ import com.intetics.lukyanenko.models.Order;
 
 public interface OrderDAO extends CommonDAO<Order>
 {
+  Order findBasket(Integer customerId);
 }

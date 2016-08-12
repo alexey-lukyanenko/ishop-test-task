@@ -10,20 +10,23 @@ public class JDBCDAOFactory implements DAOFactory
   private final OrderDetailDAO orderDetailDAO;
   private final GoodsItemDAO goodsItemDAO;
   private final GoodsCategoryDAO goodsCategoryDAO;
+  private final CustomerDAO customerDAO;
   
   public JDBCDAOFactory(
-          AppUserDAO appUserDAO,
-          OrderDAO orderDAO,
-          OrderDetailDAO orderDetailDAO,
-          GoodsItemDAO goodsItemDAO,
-          GoodsCategoryDAO goodsCategoryDAO
-  )
+                         AppUserDAO appUserDAO,
+                         OrderDAO orderDAO,
+                         OrderDetailDAO orderDetailDAO,
+                         GoodsItemDAO goodsItemDAO,
+                         GoodsCategoryDAO goodsCategoryDAO,
+                         CustomerDAO customerDAO
+                       )
   {
     this.appUserDAO = appUserDAO;
     this.orderDAO = orderDAO;
     this.orderDetailDAO = orderDetailDAO;
     this.goodsItemDAO = goodsItemDAO;
     this.goodsCategoryDAO = goodsCategoryDAO;
+    this.customerDAO = customerDAO;
   }
   
   public <T extends Common> CommonDAO<T> getDAO(Class<T> modelClass)
@@ -38,6 +41,8 @@ public class JDBCDAOFactory implements DAOFactory
       return (CommonDAO<T>)goodsCategoryDAO;
     else if (modelClass == GoodsItem.class)
       return (CommonDAO<T>)goodsItemDAO;
+    else if (modelClass == Customer.class)
+      return (CommonDAO<T>)customerDAO;
     else
       throw new IllegalArgumentException(String.format("Model class %s is not supported", modelClass.getSimpleName()));
   }

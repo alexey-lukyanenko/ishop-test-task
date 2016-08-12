@@ -1,5 +1,7 @@
 package com.intetics.lukyanenko.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface CommonDAO<T>
@@ -11,4 +13,5 @@ public interface CommonDAO<T>
   int generateNewID();
   
   T getByID(int id);
+  T populateFromResultSet(ResultSet resultSet, String fieldNamePrefix) throws SQLException;
 }
