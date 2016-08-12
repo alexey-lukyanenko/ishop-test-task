@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="UTF-8"%>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.GrantedAuthority" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,9 +9,16 @@
     <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
+  <jsp:include page="../basket/short"/>
   <%@ include file="GoodsSearch.html"%>
 <%
-  boolean readonly = false; // todo: goods security
+  boolean readonly = true;
+  for (GrantedAuthority auth: SecurityContextHolder.getContext().getAuthentication().getAuthorities())
+    if (auth.getAuthority().equals("admin"))
+    {
+      readonly = false;
+      break;
+    }
 if(!readonly)
   {%>
 <br>

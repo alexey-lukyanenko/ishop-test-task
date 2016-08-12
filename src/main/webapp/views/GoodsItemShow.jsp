@@ -2,14 +2,11 @@
 <%@ page import="com.intetics.lukyanenko.models.GoodsItem" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<%
-  GoodsItem model = (GoodsItem)request.getAttribute("model");
-  boolean creating = model.getId() == null;
-%>
+<% GoodsItem model = (GoodsItem)request.getAttribute("model"); %>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Internet-store: <%= creating ? "Creating of a new goods item" : "Editing of a goods item"%></title>
+    <title>Internet-store: <%= model.getName() %></title>
     <base href="<%=request.getContextPath()%>/"/>
 </head>
 <body>
@@ -21,6 +18,7 @@ function requestAddToBasket(id)
     xmlhttp.open('POST', 'goods/' + id + '?basket=add', false);
     xmlhttp.setRequestHeader("${_csrf.headerName}", "${_csrf.token}");
     xmlhttp.send(null);
+    location.reload();
 }
 </script>
 <jsp:include page="../basket/short"/>
@@ -36,7 +34,7 @@ function requestAddToBasket(id)
 <form method="POST" action="goods/<%=model.getId()%>?basket=add">
     <input type="button" value="Add to basket" onclick="requestAddToBasket(<%=model.getId()%>); return false;">
 </form>
-<a href="item"><%=creating ? "Cancel" : "Return to list"%></a>
+<a href="goods">Return to list</a>
 <br>
 <a href="">Home page</a>
 </body>
