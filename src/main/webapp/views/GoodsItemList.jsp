@@ -26,6 +26,7 @@ function requestDelete(name, id)
     }
 }
 </script>
+<jsp:include page="../basket/short"/>
 <%@ include file="GoodsSearch.html"%>
 <%
   List<GoodsItem> list = (List<GoodsItem>)request.getAttribute("list");
