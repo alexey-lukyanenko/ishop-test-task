@@ -13,7 +13,6 @@ public class Order
   private Customer          customer;
   private Integer           customerId;
   private List<OrderDetail> details;
-  private double            total;
   
   public int getId()
   {
@@ -77,14 +76,17 @@ public class Order
     this.details = details;
   }
   
-  public double getTotal()
+  public Double getTotal()
   {
-    return total;
-  }
-  
-  public void setTotal(double total)
-  {
-    this.total = total;
+    if (details != null)
+    {
+      double total = 0.0;
+      for(OrderDetail row: details)
+        total += row.getQuantity() * row.getItemPrice();
+      return total;
+    }
+    else
+      return null;
   }
   
   public Customer getCustomer()

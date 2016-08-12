@@ -16,12 +16,12 @@ public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implement
     return "select * from goods_category";
   }
   
-  protected GoodsCategory mapFields(ResultSet resultSet)
+  protected GoodsCategory mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
     GoodsCategory object = new GoodsCategory();
-    object.setId(resultSet.getInt("id"));
-    object.setName(resultSet.getString("name"));
+    object.setId(resultSet.getInt(fieldNamePrefix + "id"));
+    object.setName(resultSet.getString(fieldNamePrefix + "name"));
     return object;
   }
   

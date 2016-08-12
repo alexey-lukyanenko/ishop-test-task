@@ -68,12 +68,12 @@ public class AppUserDAOImpl
             "  from app_user au";
   }
   
-  protected AppUser mapFields(ResultSet resultSet)
+  protected AppUser mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    AppUser appUser = new AppUser(resultSet.getString("name"));
+    AppUser appUser = new AppUser(resultSet.getString(fieldNamePrefix + "name"));
     appUser.setPassword(null);
-    appUser.setIsCustomer(resultSet.getByte("is_customer") != 0);
+    appUser.setIsCustomer(resultSet.getByte(fieldNamePrefix + "is_customer") != 0);
     return appUser;
   }
   

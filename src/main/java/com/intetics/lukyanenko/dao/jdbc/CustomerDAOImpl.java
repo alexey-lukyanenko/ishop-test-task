@@ -18,16 +18,16 @@ public class CustomerDAOImpl
   }
   
   @Override
-  protected Customer mapFields(ResultSet resultSet)
+  protected Customer mapFields(ResultSet resultSet, String fieldNamePrefix)
   throws SQLException
   {
     Customer object = new Customer();
-    object.setId(resultSet.getInt("id"));
+    object.setId(resultSet.getInt(fieldNamePrefix + "id"));
 //    object.setAnonymousSessionID(resultSet.getString("anonymous_session_id"));
-    object.setAppUserName(resultSet.getString("app_user_name"));
-    object.setEmail(resultSet.getString("email"));
-    object.setPhone(resultSet.getString("phone"));
-    object.setShippingAddress(resultSet.getString("shipping_address"));
+    object.setAppUserName(resultSet.getString(fieldNamePrefix + "app_user_name"));
+    object.setEmail(resultSet.getString(fieldNamePrefix + "email"));
+    object.setPhone(resultSet.getString(fieldNamePrefix + "phone"));
+    object.setShippingAddress(resultSet.getString(fieldNamePrefix + "shipping_address"));
     return object;
   }
   
@@ -100,5 +100,11 @@ public class CustomerDAOImpl
     return jdbcTemplate.queryForObject("select next value for sq_customer",
                                        (HashMap<String, Object>)null,
                                        Integer.class);
+  }
+  
+  @Override
+  public Customer find(String sessionId)
+  {
+    return get("anonymous_session_id", sessionId);
   }
 }

@@ -5,11 +5,12 @@ import java.lang.ref.WeakReference;
 public class OrderDetail extends Common
 {
   private int                  id;
-  private GoodsItem            item;
+  private GoodsItem            goodsItem;
   private WeakReference<Order> order;
   private double               quantity;
   private int                  goodsItemId;
   private int                  orderId;
+  private double               itemPrice;
   
   public int getId()
   {
@@ -21,14 +22,15 @@ public class OrderDetail extends Common
     this.id = id;
   }
   
-  public GoodsItem getItem()
+  public GoodsItem getGoodsItem()
   {
-    return item;
+    return goodsItem;
   }
   
-  public void setItem(GoodsItem item)
+  public void setGoodsItem(GoodsItem goodsItem)
   {
-    this.item = item;
+    this.goodsItem = goodsItem;
+    this.goodsItemId = goodsItem.getId();
   }
   
   public Order getOrder()
@@ -39,6 +41,7 @@ public class OrderDetail extends Common
   public void setOrder(Order order)
   {
     this.order = new WeakReference<Order>(order);
+    this.orderId = order.getId();
   }
   
   public double getQuantity()
@@ -59,6 +62,8 @@ public class OrderDetail extends Common
   public void setGoodsItemId(int goodsItemId)
   {
     this.goodsItemId = goodsItemId;
+    if (goodsItem != null && goodsItem.getId() != goodsItemId)
+      goodsItem = null;
   }
   
   public int getOrderId()
@@ -69,5 +74,18 @@ public class OrderDetail extends Common
   public void setOrderId(int orderId)
   {
     this.orderId = orderId;
+  }
+  
+  public double getItemPrice()
+  {
+    if (goodsItem == null)
+      return itemPrice;
+    else
+      return goodsItem.getPrice();
+  }
+  
+  public void setItemPrice(double itemPrice)
+  {
+    this.itemPrice = itemPrice;
   }
 }

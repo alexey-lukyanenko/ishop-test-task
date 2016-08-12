@@ -37,12 +37,24 @@ public abstract class CommonDAOImpl<T> implements CommonDAO<T>
     );
   }
   
-  protected abstract T mapFields(ResultSet resultSet)
+  protected abstract T mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException;
+  
+  protected T mapFields(ResultSet resultSet)
+    throws SQLException
+  {
+    return mapFields(resultSet, "");
+  }
   
   public T getByID(int id)
   {
     return get("id", id);
+  }
+  
+  @Override
+  public T populateFromResultSet(ResultSet resultSet, String fieldNamePrefix) throws SQLException
+  {
+    return mapFields(resultSet, fieldNamePrefix);
   }
   
   protected T get(final String paramName, final Object paramValue)
