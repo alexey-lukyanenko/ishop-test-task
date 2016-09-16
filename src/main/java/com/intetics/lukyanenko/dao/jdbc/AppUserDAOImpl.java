@@ -71,8 +71,10 @@ public class AppUserDAOImpl
   protected AppUser mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    AppUser appUser = new AppUser(resultSet.getString(fieldNamePrefix + "name"));
+    AppUser appUser = getNewModelInstance();
+    appUser.setName(resultSet.getString(fieldNamePrefix + "name"));
     appUser.setPassword(null);
+    appUser.setIsNew(false);
     appUser.setIsCustomer(resultSet.getByte(fieldNamePrefix + "is_customer") != 0);
     return appUser;
   }

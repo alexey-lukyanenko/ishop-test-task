@@ -19,7 +19,7 @@ public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implement
   protected GoodsCategory mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    GoodsCategory object = new GoodsCategory();
+    GoodsCategory object = getNewModelInstance();
     object.setId(resultSet.getInt(fieldNamePrefix + "id"));
     object.setName(resultSet.getString(fieldNamePrefix + "name"));
     return object;

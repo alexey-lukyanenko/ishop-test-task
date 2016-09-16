@@ -21,11 +21,12 @@ public class OrderDAOImpl extends CommonDAOImpl<Order> implements OrderDAO
   protected Order mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    Order Order = new Order();
+    Order Order = getNewModelInstance();
     Order.setId(resultSet.getInt(fieldNamePrefix + "id"));
     Order.setCreated(resultSet.getDate(fieldNamePrefix + "created"));
-    Order.setIsBasket(resultSet.getInt(fieldNamePrefix + "is_basket") == 0);
+    Order.setIsBasket(resultSet.getInt(fieldNamePrefix + "is_basket") != 0);
     Order.setNumber(resultSet.getString(fieldNamePrefix + "order_number"));
+    Order.setCustomerId(resultSet.getInt(fieldNamePrefix + "customer_id"));
     return Order;
   }
   
@@ -105,6 +106,16 @@ public class OrderDAOImpl extends CommonDAOImpl<Order> implements OrderDAO
             return null;
         }
       }
-                             );
+    );
+  }
+  
+  @Override
+  public Order convertBasketToOrder(Order basket)
+  {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("id", basket.getId());
+    jdbcTemplate.update("update order_head set is_basket = 0 where id = :id", params);
+    basket.setIsBasket(false);
+    return basket;
   }
 }

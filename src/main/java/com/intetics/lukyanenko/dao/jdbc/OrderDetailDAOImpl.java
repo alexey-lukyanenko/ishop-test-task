@@ -82,7 +82,7 @@ public class OrderDetailDAOImpl
   protected OrderDetail mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    OrderDetail object = new OrderDetail();
+    OrderDetail object = getNewModelInstance();
     object.setId(resultSet.getInt(fieldNamePrefix + "id"));
     object.setGoodsItemId(resultSet.getInt(fieldNamePrefix + "goods_item_id"));
     object.setOrderId(resultSet.getInt(fieldNamePrefix + "order_head_id"));

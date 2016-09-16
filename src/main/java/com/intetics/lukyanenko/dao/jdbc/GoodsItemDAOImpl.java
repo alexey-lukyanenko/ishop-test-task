@@ -116,7 +116,7 @@ public class GoodsItemDAOImpl extends CommonDAOImpl<GoodsItem> implements GoodsI
   protected GoodsItem mapFields(ResultSet resultSet, String fieldNamePrefix)
           throws SQLException
   {
-    GoodsItem object = new GoodsItem();
+    GoodsItem object = getNewModelInstance();
     object.setId(resultSet.getInt(fieldNamePrefix + "id"));
     object.setName(resultSet.getString(fieldNamePrefix + "name"));
     object.setDescription(resultSet.getString(fieldNamePrefix + "description"));

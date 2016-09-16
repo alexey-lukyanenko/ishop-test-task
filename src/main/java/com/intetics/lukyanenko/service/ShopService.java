@@ -4,7 +4,9 @@ import com.intetics.lukyanenko.dao.*;
 import com.intetics.lukyanenko.models.*;
 import com.intetics.lukyanenko.web.Service;
 import javafx.util.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.inject.Provider;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +16,44 @@ import java.util.Map;
 
 public class ShopService implements Service
 {
+  @Autowired
+  Provider<Order>         orderProvider;
+  @Autowired
+  Provider<OrderDetail>   orderDetailProvider;
+  @Autowired
+  Provider<Customer>      customerProvider;
+  @Autowired
+  Provider<GoodsCategory> goodsCategoryProvider;
+  @Autowired
+  Provider<GoodsItem>     goodsItemProvider;
+  @Autowired
+  Provider<AppUser>       appUserProvider;
+  
+  private GoodsCategory newGoodsCategory()
+  {
+    return goodsCategoryProvider.get();
+  }
+  private GoodsItem     newGoodsItem()
+  {
+    return goodsItemProvider.get();
+  }
+  private Order         newOrder()
+  {
+    return orderProvider.get();
+  }
+  private OrderDetail   newOrderDetail()
+  {
+    return orderDetailProvider.get();
+  }
+  private AppUser       newAppUser()
+  {
+    return appUserProvider.get();
+  }
+  private Customer      newCustomer()
+  {
+    return customerProvider.get();
+  }
+  
   private final DAOFactory factory;
   
   public ShopService(DAOFactory factory) {
@@ -76,7 +116,7 @@ public class ShopService implements Service
   @Override
   public void deleteGoodsCategory(Integer id)
   {
-    GoodsCategory object = new GoodsCategory();
+    GoodsCategory object = newGoodsCategory();
     object.setId(id);
     factory.getDAO(GoodsCategory.class).delete(object);
   }
@@ -98,7 +138,7 @@ public class ShopService implements Service
   @Override
   public GoodsItem getEmptyGoodsItem()
   {
-    GoodsItem object = new GoodsItem();
+    GoodsItem object = newGoodsItem();
     object.setCategories(new ArrayList<>(0));
     return object;
   }
@@ -115,7 +155,7 @@ public class ShopService implements Service
   @Override
   public void deleteGoodsItem(Integer id)
   {
-    GoodsItem object = new GoodsItem();
+    GoodsItem object = newGoodsItem();
     object.setId(id);
     factory.getDAO(GoodsItem.class).delete(object);
   }
@@ -144,7 +184,7 @@ public class ShopService implements Service
     Order basket = dao.findBasket(customer.getId());
     if (basket == null)
     {
-      basket = new Order();
+      basket = newOrder();
       basket.setCreated(new Date());
       basket.setCustomer(customer);
       basket.setIsBasket(true);
@@ -159,7 +199,7 @@ public class ShopService implements Service
     Customer customer = dao.find(sessionId);
     if (customer == null)
     {
-      customer = new Customer();
+      customer = newCustomer();
       customer.setAnonymousSessionID(sessionId);
       dao.add(customer);
     }
@@ -189,10 +229,15 @@ public class ShopService implements Service
   }
   
   @Override
-  public Integer tryConvertBasketToOrder()
+  public void checkIfBasketCanBeCheckedOut(Order basket) throws CustomerIsAnonymous, IllegalArgumentException
   {
-    return null;
-    // todo tryConvertBasketToOrder
+    if (!basket.getIsBasket())
+      throw new IllegalArgumentException("This is not a basket");
+    fillOrderDetails(basket);
+    if (basket.getDetails().size() == 0)
+      throw new IllegalArgumentException("Basket is empty");
+    if (basket.getCustomer().getIsAnonymous())
+      throw new CustomerIsAnonymous();
   }
   
   @Override
@@ -203,7 +248,7 @@ public class ShopService implements Service
     OrderDetail detail = dao.findGoodsItemInOrder(basket, goodsItemid);
     if (detail == null)
     {
-      detail = new OrderDetail();
+      detail = newOrderDetail();
       detail.setOrder(basket);
       detail.setGoodsItem(factory.getDAO(GoodsItem.class).getByID(goodsItemid));
       detail.setQuantity(1);
@@ -219,7 +264,7 @@ public class ShopService implements Service
   @Override
   public void deleteOrder(Integer id)
   {
-    Order object = new Order();
+    Order object = newOrder();
     object.setId(id);
     factory.getDAO(Order.class).delete(object);
   }
@@ -275,37 +320,49 @@ public class ShopService implements Service
   @Override
   public OrderDetail getOrderDetailEmpty()
   {
-    return new OrderDetail();
+    return newOrderDetail();
+  }
+  
+  @Override
+  public Order makeOrderFromBasket(Order basket) throws CustomerIsAnonymous
+  {
+    checkIfBasketCanBeCheckedOut(basket);
+    OrderDAO dao = (OrderDAO)factory.getDAO(Order.class);
+    Order order = dao.convertBasketToOrder(basket);
+    return order;
   }
   
   @Override
   public void fillOrderDetails(Order order)
   {
-    order.setDetails(((OrderDetailDAO)factory.getDAO(OrderDetail.class))
-                       .getListForOrder(order,
-                                        new OrderDetailDAO.SubdetailsFillable() {
-                                          @Override
-                                          public void fill(OrderDetail detail, ResultSet resultSet,
-                                                           String fieldNamePrefix
-                                                          ) throws SQLException
-                                          {
-                                            detail.setGoodsItem(factory.getDAO(GoodsItem.class)
-                                                                       .populateFromResultSet(resultSet, fieldNamePrefix)
-                                                               );
-                                          }
-                                        }));
+    if (order.getDetails() == null)
+      order.setDetails(((OrderDetailDAO)factory.getDAO(OrderDetail.class))
+                         .getListForOrder(order,
+                                          new OrderDetailDAO.SubdetailsFillable() {
+                                            @Override
+                                            public void fill(OrderDetail detail, ResultSet resultSet,
+                                                             String fieldNamePrefix
+                                                            ) throws SQLException
+                                            {
+                                              detail.setGoodsItem(factory.getDAO(GoodsItem.class)
+                                                                         .populateFromResultSet(resultSet, fieldNamePrefix)
+                                                                 );
+                                            }
+                                          }));
   }
   
   @Override
   public AppUser getAppUserEmptyNew()
   {
-    return new AppUser(true);
+    AppUser object = newAppUser();
+    object.setIsNew(true);
+    return object;
   }
   
   @Override
   public GoodsCategory getGoodCategoryEmpty()
   {
-    return new GoodsCategory();
+    return newGoodsCategory();
   }
   
 }

@@ -21,7 +21,7 @@ public class CustomerDAOImpl
   protected Customer mapFields(ResultSet resultSet, String fieldNamePrefix)
   throws SQLException
   {
-    Customer object = new Customer();
+    Customer object = getNewModelInstance();
     object.setId(resultSet.getInt(fieldNamePrefix + "id"));
 //    object.setAnonymousSessionID(resultSet.getString("anonymous_session_id"));
     object.setAppUserName(resultSet.getString(fieldNamePrefix + "app_user_name"));
