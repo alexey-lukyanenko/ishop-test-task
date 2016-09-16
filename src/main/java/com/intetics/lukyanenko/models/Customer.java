@@ -78,4 +78,9 @@ extends Common
   public void setAppUserName(String appUserName) {
     this.appUserName = appUserName;
   }
+  
+  public boolean getIsAnonymous()
+  {
+    return anonymousSessionID != null;
+  }
 }
