@@ -31,7 +31,7 @@ public interface Service
   Order getBasket(String sessionId);
   
   void updateBasket(Order basket, ArrayList<OrderDetail> updates);
-  Integer tryConvertBasketToOrder();
+  void checkIfBasketCanBeCheckedOut(Order basket) throws CustomerIsAnonymous;
   void addGoodsItemToBasket(Integer id, String sessionId);
   
   void deleteOrder(Integer id);
@@ -48,4 +48,9 @@ public interface Service
   void clearBasket(String sessionId);
   
   OrderDetail getOrderDetailEmpty();
+  
+  Order makeOrderFromBasket(Order basket) throws CustomerIsAnonymous;
+  
+  class CustomerIsAnonymous
+    extends Exception {}
 }
