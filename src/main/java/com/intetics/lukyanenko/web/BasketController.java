@@ -79,7 +79,7 @@ public class BasketController
       }
       catch (IllegalArgumentException E)
       {
-        return "redirect:/InvalidRequest";
+        return "redirect:/InvalidRequest"; //todo check if it is correct instruction
       }
   }
   
