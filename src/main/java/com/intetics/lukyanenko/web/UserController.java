@@ -1,15 +1,11 @@
 package com.intetics.lukyanenko.web;
 
 import com.intetics.lukyanenko.models.AppUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.inject.Inject;
 
 @Controller
 @RequestMapping(value = "/users")
@@ -17,19 +13,19 @@ public class UserController
 {
   protected final Service service;
   
-  @Inject
+  @Autowired
   public UserController(Service service)
   {
     this.service = service;
   }
   
-  @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
+  @GetMapping(value = {"", "/"})
   public ModelAndView getList()
   {
     return new ModelAndView("UserList", "list", service.getAppUserList());
   }
   
-  @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+  @GetMapping(value = "/{name}")
   public ModelAndView get(@PathVariable("name") String name)
   {
     AppUser model = service.getAppUserInfo(name);
@@ -39,13 +35,13 @@ public class UserController
       return new ModelAndView("redirect:/users");
   }
  
-  @RequestMapping(params = "new", method = RequestMethod.GET)
+  @GetMapping(params = "new")
   public ModelAndView getEmptyEditForm()
   {
     return new ModelAndView("UserEdit", "model", service.getAppUserEmptyNew());
   }
   
-  @RequestMapping(value = "/{name}", method = RequestMethod.POST)
+  @PostMapping(value = "/{name}")
   public String update(@ModelAttribute AppUser appUser)
   {
     appUser.setIsNew(false);
@@ -53,7 +49,7 @@ public class UserController
     return "redirect:/users";
   }
 
-  @RequestMapping(method = RequestMethod.PUT)
+  @PutMapping
   public ModelAndView putNew(AppUser appUser)
   {
     try
@@ -67,13 +63,13 @@ public class UserController
     }
   }
   
-  @RequestMapping(params = "new", method = RequestMethod.POST)
+  @PostMapping(params = "new")
   public ModelAndView insertNew(AppUser appUser)
   {
     return putNew(appUser);
   }
   
-  @RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
+  @DeleteMapping(value = "/{name}")
   public void delete(@PathVariable("name") String name)
   {
     service.deleteAppUser(name);
