@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public interface Service
+public interface AppService
 {
   List<AppUser> getAppUserList();
   AppUser getAppUserInfo(String name);

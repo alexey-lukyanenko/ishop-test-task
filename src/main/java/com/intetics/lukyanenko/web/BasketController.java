@@ -18,10 +18,10 @@ import java.util.regex.Pattern;
 @RequestMapping(value = "/basket")
 public class BasketController
 {
-  private final Service service;
+  private final AppService service;
   
   @Autowired
-  public BasketController(Service service)
+  public BasketController(AppService service)
   {
     this.service = service;
   }
@@ -73,7 +73,7 @@ public class BasketController
     {
       service.checkIfBasketCanBeCheckedOut(basket);
       return "redirect:/basket/confirm-check-out";
-    } catch (Service.CustomerIsAnonymous E)
+    } catch (AppService.CustomerIsAnonymous E)
       {
         return "redirect:/customer?new&from_basket";
       }

@@ -16,10 +16,10 @@ import java.util.HashMap;
 @RequestMapping(value = "/category")
 public class GoodsCategoryController
 {
-  private final Service service;
+  private final AppService service;
   
   @Inject
-  public GoodsCategoryController(Service service)
+  public GoodsCategoryController(AppService service)
   {
     this.service = service;
   }

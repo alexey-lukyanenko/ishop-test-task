@@ -3,12 +3,14 @@ package com.intetics.lukyanenko.dao.jdbc;
 import com.intetics.lukyanenko.dao.GoodsCategoryDAO;
 import com.intetics.lukyanenko.models.GoodsCategory;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 
+@Service
 public class GoodsCategoryDAOImpl extends CommonDAOImpl<GoodsCategory> implements GoodsCategoryDAO
 {
   protected String getBaseSelectSQL()

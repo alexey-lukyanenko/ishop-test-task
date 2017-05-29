@@ -2,7 +2,10 @@ package com.intetics.lukyanenko.dao.jdbc;
 
 import com.intetics.lukyanenko.dao.*;
 import com.intetics.lukyanenko.models.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class JDBCDAOFactory implements DAOFactory
 {
   private final AppUserDAO appUserDAO;
@@ -12,6 +15,7 @@ public class JDBCDAOFactory implements DAOFactory
   private final GoodsCategoryDAO goodsCategoryDAO;
   private final CustomerDAO customerDAO;
   
+  @Autowired
   public JDBCDAOFactory(
                          AppUserDAO appUserDAO,
                          OrderDAO orderDAO,

@@ -18,10 +18,10 @@ import java.util.Map;
 @RequestMapping(value = "/goods")
 public class GoodsItemController
 {
-  private final Service service;
+  private final AppService service;
   
   @Inject
-  public GoodsItemController(Service service)
+  public GoodsItemController(AppService service)
   {
     this.service = service;
   }

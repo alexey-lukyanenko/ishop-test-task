@@ -15,10 +15,10 @@ import javax.inject.Inject;
 @RequestMapping("/customer")
 public class CustomerController
 {
-  private final Service service;
+  private final AppService service;
   
   @Inject
-  public CustomerController(Service service)
+  public CustomerController(AppService service)
   {
     this.service = service;
   }

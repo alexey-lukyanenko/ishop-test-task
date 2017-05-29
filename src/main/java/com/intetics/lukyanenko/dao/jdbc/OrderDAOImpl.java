@@ -4,11 +4,13 @@ import com.intetics.lukyanenko.dao.OrderDAO;
 import com.intetics.lukyanenko.models.Order;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+@Service
 public class OrderDAOImpl extends CommonDAOImpl<Order> implements OrderDAO
 {
   @Override

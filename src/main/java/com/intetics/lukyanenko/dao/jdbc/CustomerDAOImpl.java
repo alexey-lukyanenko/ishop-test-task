@@ -2,11 +2,13 @@ package com.intetics.lukyanenko.dao.jdbc;
 
 import com.intetics.lukyanenko.dao.CustomerDAO;
 import com.intetics.lukyanenko.models.Customer;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+@Service
 public class CustomerDAOImpl
   extends CommonDAOImpl<Customer>
   implements CustomerDAO

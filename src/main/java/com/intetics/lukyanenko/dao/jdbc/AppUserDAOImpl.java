@@ -2,11 +2,13 @@ package com.intetics.lukyanenko.dao.jdbc;
 
 import com.intetics.lukyanenko.dao.AppUserDAO;
 import com.intetics.lukyanenko.models.AppUser;
+import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 
+@Service
 public class AppUserDAOImpl
         extends CommonDAOImpl<AppUser>
         implements AppUserDAO

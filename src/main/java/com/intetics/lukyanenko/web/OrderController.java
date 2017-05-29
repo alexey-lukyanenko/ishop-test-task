@@ -16,10 +16,10 @@ import java.util.Map;
 @RequestMapping(value = "/order")
 public class OrderController
 {
-  private final Service service;
+  private final AppService service;
   
   @Inject
-  public OrderController(Service service)
+  public OrderController(AppService service)
   {
     this.service = service;
   }

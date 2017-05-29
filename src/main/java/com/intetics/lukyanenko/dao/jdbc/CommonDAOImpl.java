@@ -18,12 +18,14 @@ public abstract class CommonDAOImpl<T> implements CommonDAO<T>
   @Autowired
   Provider<T> modelProvider;
   
+  @Autowired
+  protected NamedParameterJdbcTemplate jdbcTemplate;
+
   T getNewModelInstance()
   {
     return modelProvider.get();
-  };
   
-  protected NamedParameterJdbcTemplate jdbcTemplate;
+  };
   
   public void setJdbcTemplate(NamedParameterJdbcTemplate jdbcTemplate)
   {

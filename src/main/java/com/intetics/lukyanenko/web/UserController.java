@@ -11,10 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/users")
 public class UserController
 {
-  protected final Service service;
+  protected final AppService service;
   
   @Autowired
-  public UserController(Service service)
+  public UserController(AppService service)
   {
     this.service = service;
   }

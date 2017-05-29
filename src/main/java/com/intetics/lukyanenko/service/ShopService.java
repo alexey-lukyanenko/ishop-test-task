@@ -2,9 +2,11 @@ package com.intetics.lukyanenko.service;
 
 import com.intetics.lukyanenko.dao.*;
 import com.intetics.lukyanenko.models.*;
-import com.intetics.lukyanenko.web.Service;
+import com.intetics.lukyanenko.web.AppService;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Service;
 
 import javax.inject.Provider;
 import java.sql.ResultSet;
@@ -14,7 +16,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-public class ShopService implements Service
+@Service
+@DependsOn(value = "flyway")
+public class ShopService implements AppService
 {
   @Autowired
   Provider<Order>         orderProvider;
@@ -56,6 +60,7 @@ public class ShopService implements Service
   
   private final DAOFactory factory;
   
+  @Autowired
   public ShopService(DAOFactory factory) {
     this.factory = factory;
   }
