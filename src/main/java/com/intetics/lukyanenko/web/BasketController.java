@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,7 @@ public class BasketController
   @PostMapping(value = {"/", ""})
   public ModelAndView update(@RequestParam Map<String, String> params)
   {
-    Order basket = service.getBasket(RequestContextHolder.currentRequestAttributes().getSessionId());
+    Order basket = service.getBasket(getSessionId());
     service.fillOrderDetails(basket);
     //
     ArrayList<OrderDetail> upd = new ArrayList<>();
@@ -52,7 +53,7 @@ public class BasketController
   @GetMapping(value = {"/", ""})
   public ModelAndView get()
   {
-    Order basket = service.getBasket(RequestContextHolder.currentRequestAttributes().getSessionId());
+    Order basket = service.getBasket(getSessionId());
     service.fillOrderDetails(basket);
     return new ModelAndView("Basket", "basket", basket);
   }
@@ -60,7 +61,7 @@ public class BasketController
   @GetMapping(value = "/short")
   public ModelAndView getShort()
   {
-    Order basket = service.getBasket(RequestContextHolder.currentRequestAttributes().getSessionId());
+    Order basket = service.getBasket(getSessionId());
     service.fillOrderDetails(basket);
     return new ModelAndView("BasketInfo", "basket", basket);
   }
@@ -68,7 +69,7 @@ public class BasketController
   @PostMapping(value = "/checkout")
   public String Checkout()
   {
-    Order basket = service.getBasket(RequestContextHolder.currentRequestAttributes().getSessionId());
+    Order basket = service.getBasket(getSessionId());
     try
     {
       service.checkIfBasketCanBeCheckedOut(basket);
@@ -94,14 +95,16 @@ public class BasketController
   {
     try
     {
-      Order newOrder = service.makeOrderFromBasket(service.getBasket(RequestContextHolder
-                                                                       .currentRequestAttributes()
-                                                                       .getSessionId()));
+      Order newOrder = service.makeOrderFromBasket(service.getBasket(getSessionId()));
       return String.format("redirect:/order/%d?congrats", newOrder.getId());
     } catch (Throwable E)
       {
         return "redirect:/InvalidRequest";
       }
+  }
+  
+  private String getSessionId() {
+    return RequestContextHolder.currentRequestAttributes().getSessionId();
   }
   
   @DeleteMapping(value = "/{id}")
@@ -113,7 +116,7 @@ public class BasketController
   @DeleteMapping(value = {"", "/"})
   public ModelAndView clear()
   {
-    String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+    String sessionId = getSessionId();
     service.clearBasket(sessionId);
     return new ModelAndView("Basket", "basket", service.getBasket(sessionId));
   }

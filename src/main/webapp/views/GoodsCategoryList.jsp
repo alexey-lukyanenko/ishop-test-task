@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="UTF-8"%>
 <%@ page import="com.intetics.lukyanenko.models.GoodsCategory" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.net.URLEncoder" %>
 <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">

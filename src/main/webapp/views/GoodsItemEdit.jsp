@@ -48,7 +48,7 @@
            <%= checked ? "checked" : "" %>><%=category.getName()%>
 <%  }%>
     </fieldset>
-    <input type="submit" value="<%=creating ? "Create a item" : "Update a item"%>">
+    <input type="submit" value="<%=creating ? "Create a new item" : "Update an item"%>">
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     <a href="goods"><%=creating ? "Cancel" : "Return to list"%></a>
    <%=(creating && model.getName() != null)
