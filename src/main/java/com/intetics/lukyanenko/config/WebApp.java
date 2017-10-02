@@ -1,29 +1,38 @@
 package com.intetics.lukyanenko.config;
 
+import org.jetbrains.annotations.NotNull;
+import org.springframework.security.access.SecurityConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.DispatcherServlet;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
+import javax.servlet.*;
 
 public class WebApp
-  implements WebApplicationInitializer
-{
-  @Override
-  public void onStartup(ServletContext servletContext) throws ServletException
-  {
-    AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-    rootContext.register(Config.class);
-    servletContext.addListener(new ContextLoaderListener(rootContext));
-    //
-    AnnotationConfigWebApplicationContext dispatcherServletContext = new AnnotationConfigWebApplicationContext();
-    dispatcherServletContext.register(DispatcherServletConfig.class);
-    ServletRegistration.Dynamic dispatcherServlet = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServletContext));
-    dispatcherServlet.setLoadOnStartup(1);
-    dispatcherServlet.addMapping("/");
+    implements WebApplicationInitializer {
+   
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        // Root (entire application) context and listener for holding this context
+        servletContext.addListener(new ContextLoaderListener(newSpringContext(RootConfig.class, RootSecurityConfig.class)));
+        //
+        // Main servlet and context
+        Servlet servlet = new DispatcherServlet(newSpringContext(DispatcherServletConfig.class));
+        ServletRegistration.Dynamic servletRegistration = servletContext.addServlet("dispatcher", servlet);
+        servletRegistration.setLoadOnStartup(1);
+        servletRegistration.addMapping("/");
+        // Spring security filter
+        Filter filter = new DelegatingFilterProxy();
+        FilterRegistration.Dynamic filterRegistration = servletContext.addFilter("springSecurityFilterChain", filter);
+        filterRegistration.addMappingForUrlPatterns(null, false, "/*");
+    }
     
-  }
+    @NotNull
+    private AnnotationConfigWebApplicationContext newSpringContext(Class<?>...configClassList) {
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(configClassList);
+        return rootContext;
+    }
 }
