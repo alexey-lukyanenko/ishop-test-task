@@ -33,7 +33,7 @@ function requestDelete(name, id)
     <td>Login-name</td>
     <td></td>
 <%
-    List<Customer> list = (List<Customer>).request.getAttribute("list");
+    List<Customer> list = (List<Customer>) request.getAttribute("list");
     for (Customer item: list)
     {
 %>

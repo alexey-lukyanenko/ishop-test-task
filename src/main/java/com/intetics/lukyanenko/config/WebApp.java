@@ -1,7 +1,5 @@
 package com.intetics.lukyanenko.config;
 
-import org.jetbrains.annotations.NotNull;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -29,7 +27,6 @@ public class WebApp
         filterRegistration.addMappingForUrlPatterns(null, false, "/*");
     }
     
-    @NotNull
     private AnnotationConfigWebApplicationContext newSpringContext(Class<?>...configClassList) {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(configClassList);
