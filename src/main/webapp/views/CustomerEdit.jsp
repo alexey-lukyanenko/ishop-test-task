@@ -16,10 +16,11 @@
 <body>
 <font color="red">
 <% String[] errors = (String[])request.getAttribute("errors");
-   for(String error: errors)
-   { %>
+   if (errors != null) {
+     for(String error: errors) {
+%>
    <%=error%><p>
-<% }%>
+<% }}%>
 </font>
   <form method="POST" action="<%=creating? "goods?new": String.format("goods/%d", model.getId())%>">
     <fieldset>
