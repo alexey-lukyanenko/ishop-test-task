@@ -13,26 +13,23 @@ import javax.sql.DataSource
 @ComponentScan("com.intetics.lukyanenko.dao.jdbc")
 open class DBBeans {
     @Bean
-    open fun dataSource(): SingleConnectionDataSource {
-        val ds = SingleConnectionDataSource()
-        ds.setDriverClassName("org.h2.Driver")
-        ds.url = "jdbc:h2:./ishop"
-        ds.username = "ishop"
-        ds.password = "ishop"
-        ds.setSuppressClose(true)
-        return ds
-    }
+    open fun dataSource(): SingleConnectionDataSource =
+        SingleConnectionDataSource().apply {
+            setDriverClassName("org.h2.Driver")
+            url = "jdbc:h2:./ishop"
+            username = "ishop"
+            password = "ishop"
+            setSuppressClose(true)
+        }
 
     @Bean
-    open fun flyway(dataSource: DataSource): Flyway {
-        val obj = Flyway()
-        obj.dataSource = dataSource
-        obj.setLocations("sql")
-        return obj
-    }
+    open fun flyway(dataSource: DataSource): Flyway =
+        Flyway().also {
+            it.dataSource = dataSource
+            it.setLocations("sql")
+         }
 
     @Bean
-    open fun jdbcTemplate(dataSource: DataSource): NamedParameterJdbcTemplate {
-        return NamedParameterJdbcTemplate(dataSource)
-    }
+    open fun jdbcTemplate(dataSource: DataSource): NamedParameterJdbcTemplate
+        = NamedParameterJdbcTemplate(dataSource)
 }

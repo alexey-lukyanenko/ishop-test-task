@@ -16,14 +16,12 @@ import javax.sql.DataSource
 open class RootSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired
-    internal var dataSource: DataSource? = null
+    internal lateinit var dataSource: DataSource
 
-    @Throws(Exception::class)
     override fun configure(web: WebSecurity?) {
         web!!.ignoring().antMatchers("/resources/**")
     }
 
-    @Throws(Exception::class)
     override fun configure(http: HttpSecurity) {
         http.formLogin().permitAll()
         http.authorizeRequests()
@@ -35,7 +33,6 @@ open class RootSecurityConfig : WebSecurityConfigurerAdapter() {
         http.logout().logoutUrl("/logout").logoutSuccessUrl("/")
     }
 
-    @Throws(Exception::class)
     override fun configure(auth: AuthenticationManagerBuilder?) {
         auth!!.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("select name, password, true from app_user where name = lower(?)")

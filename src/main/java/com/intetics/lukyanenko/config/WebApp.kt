@@ -25,9 +25,6 @@ class WebApp : WebApplicationInitializer {
         filterRegistration.addMappingForUrlPatterns(null, false, "/*")
     }
 
-    private fun newSpringContext(vararg configClassList: Class<*>): AnnotationConfigWebApplicationContext {
-        val rootContext = AnnotationConfigWebApplicationContext()
-        rootContext.register(*configClassList)
-        return rootContext
-    }
+    private fun newSpringContext(vararg configClassList: Class<*>) =
+        AnnotationConfigWebApplicationContext().apply { register(*configClassList) }
 }

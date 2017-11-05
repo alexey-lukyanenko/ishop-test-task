@@ -14,12 +14,11 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver
 @ComponentScan("com.intetics.lukyanenko.web")
 open class DispatcherServletConfig : WebMvcConfigurerAdapter() {
     @Bean
-    open fun internalJspResolver(): ViewResolver {
-        val resolver = InternalResourceViewResolver()
-        resolver.setPrefix("/views/")
-        resolver.setSuffix(".jsp")
-        return resolver
-    }
+    open fun internalJspResolver(): ViewResolver =
+            InternalResourceViewResolver().apply {
+                setPrefix("/views/")
+                setSuffix(".jsp")
+            }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry?) {
         super.addResourceHandlers(registry)
